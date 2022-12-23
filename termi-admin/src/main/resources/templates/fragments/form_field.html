@@ -1,0 +1,114 @@
+<div th:fragment="formField(columns)" th:each="column: ${columns}"
+       class="row"
+       th:classappend="${column.formType} == ${T(org.termi.common.enumeration.FormType).HIDDEN} ? 'd-none'">
+
+    <div th:class="'mb-3 col-md-' + ${column.grid}" th:switch="${column.formType}">
+      <div th:classappend="${column.formType} == ${T(org.termi.common.enumeration.FormType).SWITCH} ? 'form-check form-switch'">
+
+        <label th:for="${column.columnName}"
+               th:utext="${column.label}"
+               th:unless="${column.formType} == ${T(org.termi.common.enumeration.FormType).HIDDEN}"></label>
+
+        <input th:case="${T(org.termi.common.enumeration.FormType).SWITCH}"
+               class="form-check-input"
+               type="checkbox"
+               th:disabled="${column.disabled}"
+               th:required="${column.required}"
+               th:value="${column.value}"
+               th:name="${column.columnName}"/>
+
+        <input th:case="${T(org.termi.common.enumeration.FormType).HIDDEN}"
+               class="form-control"
+               type="hidden"
+               th:disabled="${column.disabled}"
+               th:required="${column.required}"
+               th:value="${column.value}"
+               th:name="${column.columnName}"/>
+
+        <input th:case="${T(org.termi.common.enumeration.FormType).TEXT}"
+               class="form-control"
+               type="text"
+               th:disabled="${column.disabled}"
+               th:required="${column.required}"
+               th:value="${column.value}"
+               th:name="${column.columnName}"/>
+
+        <input th:case="${T(org.termi.common.enumeration.FormType).NUMBER}"
+               class="form-control"
+               type="number"
+               th:disabled="${column.disabled}"
+               th:required="${column.required}"
+               th:value="${column.value}"
+               th:name="${column.columnName}"/>
+
+        <input th:case="${T(org.termi.common.enumeration.FormType).COLOR}"
+               class="form-control form-control-color"
+               type="color"
+               th:disabled="${column.disabled}"
+               th:required="${column.required}"
+               th:value="${column.value}"
+               th:name="${column.columnName}"/>
+
+        <textarea th:case="${T(org.termi.common.enumeration.FormType).TEXTAREA}"
+                  class="form-control"
+                  th:disabled="${column.disabled}"
+                  th:required="${column.required}"
+                  th:value="${column.value}"
+                  th:name="${column.columnName}"></textarea>
+
+        <textarea th:case="${T(org.termi.common.enumeration.FormType).HTML_EDITOR}"
+                  class="form-control html-editor"
+                  th:disabled="${column.disabled}"
+                  th:required="${column.required}"
+                  th:text="${column.value}"
+                  th:name="${column.columnName}"></textarea>
+
+        <div th:case="${T(org.termi.common.enumeration.FormType).EDITOR}">
+          <input type="hidden"
+                 class="form-control"
+                 th:disabled="${column.disabled}"
+                 th:required="${column.required}"
+                 th:value="${column.value}"
+                 th:name="${column.columnName}"/>
+          <div id="editor" th:data-input-id="${column.columnName}"></div>
+        </div>
+
+        <div th:case="${T(org.termi.common.enumeration.FormType).SELECT}" class="input-group">
+          <select class="form-select"
+                  th:data-url="@{${column.extra.url}(id=*{id})}"
+                  th:data-searchable="${column.extra.searchable}"
+                  th:data-value="${column.value}"
+                  th:multiple="${column.extra.multiple}"
+                  th:disabled="${column.disabled}"
+                  th:required="${column.required}"
+                  th:name="${column.columnName}">
+          </select>
+          <button type="button"
+                  class="btn btn-gray-300"
+                  th:data-select-id="${column.columnName}"
+                  onclick="refreshSelect(this);">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+
+        <div th:case="${T(org.termi.common.enumeration.FormType).IMAGES}"
+             th:data-name="${column.columnName}"
+             class="dropzone rounded">
+          <div class="dz-default dz-message">
+            <p>Drop files here to upload</p>
+            <p class="text-muted small">(Max file size is 20MB and max number of files is 5)</p>
+          </div>
+          <input type="hidden"
+                 th:name="${column.columnName}"
+                 th:each="uri: ${#strings.arraySplit(column.value, ',')}"
+                 th:id="${uri}"
+                 th:value="${uri}">
+        </div>
+
+        <div th:case="${T(org.termi.common.enumeration.FormType).IMAGE}">
+          <img th:src="${UPLOAD_BASE_URL} + ${column.value}" class="img-fluid"/>
+        </div>
+
+      </div>
+    </div>
+  </div>

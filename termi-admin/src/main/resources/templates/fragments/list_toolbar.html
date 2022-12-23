@@ -1,0 +1,36 @@
+<div th:fragment="list_toolbar" class="d-flex justify-content-between">
+
+  <!-- left tools -->
+  <div class="">
+    <a th:if="${parentId}" th:href="@{${ADD_URL}(parentId=${parentId})}" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
+      <i class="bi bi-plus me-2"></i> New
+    </a>
+
+    <a th:unless="${parentId}" th:href="${ADD_URL}" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
+      <i class="bi bi-plus me-2"></i> New
+    </a>
+
+    <a th:if="${!#strings.isEmpty(PARENT_URL)}"
+       th:href="${PARENT_URL}"
+       class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
+      <i class="bi bi-chevron-up me-2"></i> Up
+    </a>
+  </div>
+
+  <!-- right tools -->
+  <div class="d-flex">
+
+    <form class="form-inline" th:if="${query} ne null">
+      <div class="input-group me-2 me-lg-3 fmxw-400">
+        <input type="search" name="q" class="form-control" th:value="${query.q}"  aria-describedby="basic-addon2">
+        <button class="input-group-text btn btn-outline-gray-300" type="submit"><i class="bi bi-search"></i></button>
+      </div>
+    </form>
+
+    <div class="btn-group ms-2 ms-lg-3">
+      <button type="button" class="btn btn-sm btn-outline-gray-600">Import</button>
+      <button type="button" class="btn btn-sm btn-outline-gray-600">Export</button>
+    </div>
+
+  </div>
+</div>

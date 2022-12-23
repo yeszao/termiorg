@@ -1,0 +1,53 @@
+.page-link.disabled, .page-link:disabled {
+    opacity: .65;
+}
+i[data-bs-toggle="collapse"][aria-expanded="true"],
+[data-bs-toggle="collapse"][aria-expanded="true"] .link-arrow {
+    display: inline-block;
+    transform: rotate(90deg);
+    transition: all 0.3s ease;
+}
+
+i[data-bs-toggle="collapse"][aria-expanded="false"],
+[data-bs-toggle="collapse"][aria-expanded="false"] .link-arrow {
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+}
+.bi.active {
+    color: var(--bs-secondary);
+}
+
+/* Upload dropzone */
+.dropzone {
+    min-height: 140px;
+    border: 2px dashed #4B5563;
+    background: #fff;
+}
+
+/* Layout styles */
+.drop-area {
+    display: block;
+    min-height: 300px !important;
+    border: 2px dashed #AAAAAA;
+}
+
+.drop-top, .drop-bottom {
+    min-height: 150px !important;
+}
+
+.border-dashed {
+    border-color: #3b5999;
+}
+
+.drag-item, .copied {
+    min-height: 30px;
+}
+
+[draggable="true"] {
+    cursor: move;
+}
+
+.choices__list {
+    z-index: 99;
+}

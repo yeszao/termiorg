@@ -1,0 +1,113 @@
+<div th:fragment="mini_cart" class="modal px-modal-right fade" id="modalMiniCart" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Shopping Cart -->
+  <div class="modal-dialog px-modal-vertical">
+    <div class="modal-content">
+      <!-- Header-->
+      <div class="modal-header border-bottom">
+        <h6 class="m-0 fw-bold">
+          Your Cart (2)
+        </h6>
+        <!-- Close -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- List group -->
+        <ul class="list-unstyled m-0 p-0">
+          <li class="py-3 border-bottom">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <!-- Image -->
+                <a href="javascript:void(0);">
+                  <img class="img-fluid border" th:src="@{/static/img/product-2.jpg}" alt="...">
+                </a>
+              </div>
+              <div class="col-8">
+                <!-- Title -->
+                <p class="mb-2">
+                  <a class="text-dark fw-500" href="javascript:void(0);">Cotton floral print Dress</a>
+                  <span class="m-0 text-muted w-100 d-block">$40.00</span>
+                </p>
+                <!--Footer -->
+                <div class="d-flex align-items-center">
+                  <!-- Select -->
+                  <select class="form-select form-select-sm w-auto">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                  </select>
+                  <!-- Remove -->
+                  <a class="small text-dark ms-auto" href="#!">
+                    <i class="bi bi-x"></i> Remove
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="py-3 border-bottom">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <!-- Image -->
+                <a href="javascript:void(0);">
+                  <img class="img-fluid border" th:src="@{/static/img/product-2.jpg}" alt="...">
+                </a>
+              </div>
+              <div class="col-8">
+                <!-- Title -->
+                <p class="mb-2">
+                  <a class="text-dark fw-500" href="javascript:void(0);">Cotton floral print Dress</a>
+                  <span class="m-0 text-muted w-100 d-block">$40.00</span>
+                </p>
+                <!--Footer -->
+                <div class="d-flex align-items-center">
+                  <!-- Select -->
+                  <select class="form-select form-select-sm w-auto">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                  </select>
+                  <!-- Remove -->
+                  <a class="small text-dark ms-auto" href="#!">
+                    <i class="bi bi-x"></i> Remove
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Footer -->
+      <div class="mt-auto p-3 pt-0">
+        <div class="row g-0 py-2">
+          <div class="col-8">
+            <span class="text-dark">Subtotal</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="row g-0 py-2">
+          <div class="col-8">
+            <span class="text-dark">Taxes:</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="row g-0 pt-2 mt-2 border-top fw-bold text-dark">
+          <div class="col-8">
+            <span class="text-dark">Subtotal</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="pt-4">
+          <a class="btn btn-block btn-dark w-100 mb-3" href="checkout.html">Continue to Checkout</a>
+          <a class="btn btn-block btn-outline-dark w-100" href="shopping-cart.html">View Cart</a>
+        </div>
+      </div>
+      <!-- Buttons -->
+    </div>
+  </div>
+</div>

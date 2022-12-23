@@ -1,0 +1,19 @@
+<div class="py-3 bg-gray-100" th:if="${breadcrumb} != null">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 my-2">
+        <h1 class="m-0 h4 text-center text-lg-start" th:text="${breadcrumb.title}"></h1>
+      </div>
+      <div class="col-lg-6 my-2">
+        <ol class="breadcrumb dark-link m-0 small justify-content-center justify-content-lg-end">
+          <li class="breadcrumb-item" th:each="item: ${breadcrumb.items}">
+            <a class="text-nowrap" th:href="${item.url}">
+              <i class="bi" th:if="${item.icon} ne ''" th:classappend="${item.icon}"></i>
+              <span th:text="${item.text}"></span>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

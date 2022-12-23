@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+

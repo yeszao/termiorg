@@ -1,0 +1,209 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand" href="/">
+      <img class="logo-light" th:src="${config.logo}" title="" alt="">
+    </a>
+    <!-- Logo -->
+
+    <!-- Menu -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item" th:each="row :${tree.rows}" th:classappend="${row.hasChild}? 'dropdown'">
+          <a th:href="${row.url}" class="nav-link" th:text="${row.name}"></a>
+          <label class="px-dropdown-toggle mob-menu" th:if="${row.hasChild}"></label>
+          <ul class="dropdown-menu list-unstyled left" th:if="${row.hasChild}">
+            <li th:each="child: ${row.children}">
+              <a class="dropdown-item" th:href="${child.url}" th:text="${child.name}"></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- End Menu -->
+
+    <div class="nav flex-nowrap align-items-center header-right">
+      <!-- Nav Search-->
+      <div class="nav-item">
+        <a class="nav-link collapsed" data-bs-toggle="collapse" href="javascript:void(0)" data-bs-target="#search-open" aria-expanded="false">
+          <i class="bi bi-search"> </i>
+        </a>
+      </div>
+
+      <!-- Acount -->
+      <div class="nav-item dropdown">
+        <a class="nav-link" href="javascript:void(0);" role="button" id="dropdown_myaccount" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="bi bi-person-circle"> </i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="dropdown_myaccount">
+          <a class="dropdown-item" href="login.html">Login</a>
+          <a class="dropdown-item" href="sign-up.html">Register</a>
+          <a class="dropdown-item" href="wishlist.html">Wishlist</a>
+          <a class="dropdown-item" href="my-account.html">My account</a>
+        </div>
+
+      </div>
+      <!-- Wishlist -->
+      <div class="nav-item d-none d-xl-block">
+        <a class="nav-link" href="wishlist.html">
+          <i class="bi bi-heart"> </i>
+        </a>
+      </div>
+      <!-- Cart -->
+      <div class="nav-item">
+        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalMiniCart" href="javascript:void(0)">
+                            <span class="" data-cart-items="8">
+                                <i class="bi bi-cart"> </i>
+                            </span>
+        </a>
+      </div>
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- End Mobile Toggle -->
+    </div>
+  </div>
+</nav>
+
+<div class="modal px-modal-right fade" id="modalMiniCart" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Shopping Cart -->
+  <div class="modal-dialog px-modal-vertical">
+    <div class="modal-content">
+      <!-- Header-->
+      <div class="modal-header border-bottom">
+        <h6 class="m-0 fw-bold">
+          Your Cart (2)
+        </h6>
+        <!-- Close -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- List group -->
+        <ul class="list-unstyled m-0 p-0">
+          <li class="py-3 border-bottom">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <!-- Image -->
+                <a href="javascript:void(0);">
+                  <img class="img-fluid border" src="/static/img/product-2.jpg" alt="...">
+                </a>
+              </div>
+              <div class="col-8">
+                <!-- Title -->
+                <p class="mb-2">
+                  <a class="text-dark fw-500" href="javascript:void(0);">Cotton floral print Dress</a>
+                  <span class="m-0 text-muted w-100 d-block">$40.00</span>
+                </p>
+                <!--Footer -->
+                <div class="d-flex align-items-center">
+                  <!-- Select -->
+                  <select class="form-select form-select-sm w-auto">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                  </select>
+                  <!-- Remove -->
+                  <a class="small text-dark ms-auto" href="#!">
+                    <i class="bi bi-x"></i> Remove
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="py-3 border-bottom">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <!-- Image -->
+                <a href="javascript:void(0);">
+                  <img class="img-fluid border" src="/static/img/product-2.jpg" alt="...">
+                </a>
+              </div>
+              <div class="col-8">
+                <!-- Title -->
+                <p class="mb-2">
+                  <a class="text-dark fw-500" href="javascript:void(0);">Cotton floral print Dress</a>
+                  <span class="m-0 text-muted w-100 d-block">$40.00</span>
+                </p>
+                <!--Footer -->
+                <div class="d-flex align-items-center">
+                  <!-- Select -->
+                  <select class="form-select form-select-sm w-auto">
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                  </select>
+                  <!-- Remove -->
+                  <a class="small text-dark ms-auto" href="#!">
+                    <i class="bi bi-x"></i> Remove
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Footer -->
+      <div class="mt-auto p-3 pt-0">
+        <div class="row g-0 py-2">
+          <div class="col-8">
+            <span class="text-dark">Subtotal</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="row g-0 py-2">
+          <div class="col-8">
+            <span class="text-dark">Taxes:</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="row g-0 pt-2 mt-2 border-top fw-bold text-dark">
+          <div class="col-8">
+            <span class="text-dark">Subtotal</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="ml-auto">$89.00</span>
+          </div>
+        </div>
+        <div class="pt-4">
+          <a class="btn btn-block btn-dark w-100 mb-3" href="checkout.html">Continue to Checkout</a>
+          <a class="btn btn-block btn-outline-dark w-100" href="shopping-cart.html">View Cart</a>
+        </div>
+      </div>
+      <!-- Buttons -->
+    </div>
+  </div>
+</div>
+
+<div class="px-search-full collapse bg-dark p-3 z-index-999 position-fixed w-100 top-0" id="search-open">
+  <div class="container position-relative">
+    <div class="row vh-100 justify-content-center align-items-center">
+      <div class="col-lg-8 ">
+        <h2 class="h1">
+          <span class="d-block text-white">Search</span>
+        </h2>
+        <form class="position-relative w-100">
+          <div class="mb-3 input-group">
+            <!-- Search input -->
+            <input class="form-control border-0 shadow-none" type="text" name="search" placeholder="What are you looking for?">
+            <!-- Search button -->
+            <button type="button" class="btn btn-primary shadow-none">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+
+      </div>
+      <!-- Search button close START -->
+      <a class="search-close" data-bs-toggle="collapse" href="javascript:void(0)" data-bs-target="#search-open" aria-expanded="true">
+        <i class="bi bi-x p-0 lh-1"></i>
+      </a>
+      <!-- Search button close END -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<head th:fragment="head(title)" >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title th:text="${title}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/img/favicon/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/img/favicon/favicon-16x16.png}">
+
+    <!-- Sweet Alert -->
+    <link type="text/css" th:href="@{/vendor/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+
+    <!-- Bootstrap Icon -->
+    <link type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Notyf -->
+    <link type="text/css" th:href="@{/vendor/notyf/notyf.min.css}" rel="stylesheet">
+
+    <!-- quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <!-- dropzone -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css">
+
+    <!-- choices -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/base.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
+
+    <!-- Volt CSS -->
+    <link type="text/css" th:href="@{/css/volt.css}" rel="stylesheet">
+
+    <!-- codemirror CSS -->
+    <link type="text/css" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/lib/codemirror.min.css" rel="stylesheet">
+
+    <link type="text/css" th:href="@{/css/termi-admin.css}" rel="stylesheet">
+</head>

@@ -1,0 +1,175 @@
+
+  <div class="shop-top-bar d-flex pb-3">
+    <div class="layout-change">
+      <!-- Mobile Toggle -->
+      <button class="btn btn-sm d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#shop_filter"
+              aria-controls="shop_filter" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fs-4 lh-1 bi bi-justify-left"></i>
+      </button>
+      <!-- End Mobile Toggle -->
+      <a class="btn btn-sm active" href="javascript:void(0);"><i class="bi bi-grid"></i></a>
+      <a class="btn btn-sm" href="shop-list.html"><i class="bi bi-view-stacked"></i></a>
+    </div>
+    <div class="shop-mob-button">
+    </div>
+    <div class="shortby-dropdown ms-auto">
+      <div class="dropdown">
+        <a class="btn btn-white btn-sm border dropdown-toggle" href="javascript:void(0);" role="button"
+           id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          Short by
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
+          <li><a class="dropdown-item" href="javascript:void(0);">Featured</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Best selling</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Alphabetically, A-Z</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Alphabetically, Z-A</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Price, low to high</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Price, high to low</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Date, old to new</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0);">Date, new to old</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row g-3">
+    <div class="col-sm-6 col-lg-4" th:each="row: ${page.content}">
+      <div class="product-card-1">
+        <div class="product-card-image">
+          <div class="badge-ribbon">
+            <span class="badge bg-danger">Sale</span>
+          </div>
+          <div class="product-action">
+            <a href="wishlist.html" class="btn btn-outline-primary">
+              <i class="bi bi-heart"></i>
+            </a>
+            <a href="shop-compare.html" class="btn btn-outline-primary">
+              <i class="bi bi-arrow-left-right"></i>
+            </a>
+            <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)"
+               class="btn btn-outline-primary">
+              <i class="bi bi-eye-fill"></i>
+            </a>
+          </div>
+          <div class="product-media">
+            <a th:href="'/product/' + ${row.slug}">
+              <img class="img-fluid" th:src="${UPLOAD_BASE_URL} + ${row.firstPicture}" title="" alt="">
+            </a>
+            <div class="product-cart-btn">
+              <a href="shopping-cart.html" class="btn btn-primary btn-sm w-100">
+                <i class="bi bi-cart"></i>
+                Add to cart
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <div class="product-meta small">
+            <a href="shop-fw-without-filtres.html">Clothing</a>, <a href="shop-fw-without-filtres.html">Men</a>
+          </div>
+          <div class="rating-star text">
+            <i class="bi bi-star-fill active"></i>
+            <i class="bi bi-star-fill active"></i>
+            <i class="bi bi-star-fill active"></i>
+            <i class="bi bi-star-fill active"></i>
+            <i class="bi bi-star"></i>
+          </div>
+          <h6 class="product-title">
+            <a th:href="'/product/' + ${row.slug}" th:text="${row.name}">Product name</a>
+          </h6>
+          <div class="product-price">
+            <span class="text-primary">$28.<small>50</small></span>
+            <del class="fs-sm text-muted">$38.<small>50</small></del>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shop-bottom-bar d-flex align-items-center mt-3">
+    <div>
+      Page: [[${page.number} + 1]] / [[${page.totalPages}]],
+      Items: [[${page.numberOfElements}]] / [[${page.totalElements}]]
+    </div>
+    <div class="ms-auto">
+      <ul class="pagination">
+        <li class="page-item">
+          <button class="page-link"
+                  role="button"
+                  th:onclick="'jumpWithParameter(\'page\', 1);'"
+                  th:disabled="${page.first}">
+            <span aria-hidden="true">« First</span>
+          </button>
+        </li>
+        <li class="page-item">
+          <button class="page-link"
+                  role="button"
+                  th:onclick="'jumpWithParameter(\'page\', ' + ${page.number - 1} + ');'"
+                  th:disabled="${page.first}">Prev
+          </button>
+        </li>
+        <li class="page-item">
+          <button class="page-link"
+                  role="button"
+                  th:onclick="'jumpWithParameter(\'page\', ' + ${page.number + 1} + ');'"
+                  th:disabled="${page.last}">Next
+          </button>
+        </li>
+        <li class="page-item">
+          <button class="page-link"
+                  role="button"
+                  th:onclick="'jumpWithParameter(\'page\', ' + ${page.totalPages - 1} + ');'"
+                  th:disabled="${page.last}">Last »
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+<script>
+    /**
+     * https://stackoverflow.com/questions/1090948/change-url-parameters-and-specify-defaults-using-javascript
+     */
+    function updateUrlParameter(url, param, paramVal) {
+        var TheAnchor = null;
+        var newAdditionalURL = "";
+        var tempArray = url.split("?");
+        var baseURL = tempArray[0];
+        var additionalURL = tempArray[1];
+        var temp = "";
+
+        if (additionalURL) {
+            var tmpAnchor = additionalURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+            if (TheAnchor)
+                additionalURL = TheParams;
+
+            tempArray = additionalURL.split("&");
+
+            for (var i = 0; i < tempArray.length; i++) {
+                if (tempArray[i].split('=')[0] != param) {
+                    newAdditionalURL += temp + tempArray[i];
+                    temp = "&";
+                }
+            }
+        } else {
+            var tmpAnchor = baseURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+
+            if (TheParams)
+                baseURL = TheParams;
+        }
+
+        if (TheAnchor)
+            paramVal += "#" + TheAnchor;
+
+        var rows_txt = temp + "" + param + "=" + paramVal;
+        return baseURL + "?" + newAdditionalURL + rows_txt;
+    }
+
+    function jumpWithParameter(key, value) {
+        console.log("Jumping...")
+        window.location.href = updateUrlParameter(window.location.href, key, value);
+    }
+</script>

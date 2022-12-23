@@ -1,0 +1,48 @@
+<table th:fragment="tree_node(columns, rows)"
+       class="table table-centered table-nowrap mb-0 rounded table-hover">
+  <tbody>
+      <th:block th:each="row : ${rows}">
+        <tr class="table-row">
+          <td th:each="column, iter : ${columns}">
+            <span th:style="'margin-left: ' + ${row.level} + '.5rem'" th:if="${column.indent}"></span>
+            <span class="link-arrow d-inline-block" role="button"
+                  th:if="${row.hasChild} and ${column.indent}"
+                  th:data-bs-toggle="${row.hasChild} ? 'collapse'"
+                  th:data-bs-target="${row.hasChild} ? '.row-' + ${row.id}"
+                  aria-expanded="false">
+                        <i class="bi bi-chevron-right"></i>
+            </span>
+
+            <a th:if="${column.linkUrl} != ''"
+               th:href="@{${column.linkUrl}(${column.linkParamKey}=${row.id})}"
+               th:text="${row[column.columnName]}"></a>
+            <span th:if="${column.linkUrl} == ''" th:text="${row[column.columnName]}"></span>
+          </td>
+
+          <td class="col-2">
+            <a class="me-2" th:href="@{${EDIT_URL}(id=${row.id})}">Edit</a>
+
+            <div class="dropdown btn-group">
+              <button class="btn btn-link text-danger dropdown-toggle m-0 p-0" type="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                Delete
+              </button>
+              <ul class="dropdown-menu mt-2 py-1">
+                <li>
+                  <a class="dropdown-item" th:href="@{${DELETE_URL}(id=${row.id})}">
+                    <i class="bi bi-exclamation-triangle me-2 text-danger"></i> Delete
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+
+        <tr th:if="${row.hasChild}" th:classappend="'row-' + ${row.id}" class="table-row collapse">
+          <td th:colspan="${#lists.size(columns)} + 1" class="p-0">
+            <table th:replace="this::tree_node(${columns}, ${row.children})"></table>
+          </td>
+        </tr>
+      </th:block>
+  </tbody>
+</table>

@@ -1,0 +1,41 @@
+<!-- Mobile Toggle -->
+<button class="p-3 btn-close position-absolute top-0 start-0 ms-2 mt-2 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#shop_filter" aria-controls="shop_filter" aria-expanded="false" aria-label="Toggle navigation">
+</button>
+
+<div class="shop-sidebar-block">
+  <div class="shop-sidebar-title">
+    <a class="h5" data-bs-toggle="collapse" href="#shop_categories" role="button" aria-expanded="true" aria-controls="shop_categories">Categories <i class="bi bi-chevron-up"></i></a>
+  </div>
+  <div class="shop-category-list collapse show" id="shop_categories">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a href="/categories" class="nav-link active">All Products</a>
+      </li>
+
+      <li class="nav-item"
+          th:if="${#lists.size(tree.rows)} > 0"
+          th:each="row: ${tree.rows}"
+      >
+        <a th:href="'/category/' + ${row.slug}" class="nav-link ">
+          [[${row.name}]] <span>([[${row.productAmount}]])</span>
+        </a>
+
+        <a data-bs-toggle="collapse"
+           th:href="'#shop_cat_' + ${row.id}"
+           role="button"
+           aria-expanded="false"
+           th:aria-controls="'shop_cat_' + ${row.id}"
+           th:classappend="${row.hasChild} ? 's-icon'"></a>
+
+        <div class="collapse" th:id="'shop_cat_' + ${row.id}" th:if="${row.hasChild}">
+          <ul class="nav nav-pills flex-column nav-hierarchy">
+            <li class="nav-item" th:each="child: ${row.children}">
+              <a th:href="'/category/' + ${child.slug}" class="nav-link " th:text="${child.name}"></a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>

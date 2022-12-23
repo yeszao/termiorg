@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head()">
+  <title>Termi</title>
+</head>
+<body>
+
+<div id="loading" class="preloader">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<header th:if="${TOP} ne ''" th:utext="${TOP}"
+        class="header-main header-dark header-fluid header-transparent">
+</header>
+
+<div class="py-6">
+  <div class="container">
+    <div class="row">
+      <aside th:utext="${LEFT}" th:if="${LEFT} ne ''"
+             id="shop_filter"
+             class="col-lg-4 col-xl-3 pe-xl-5 pt-9 pt-lg-0 shop-mob-toggle collapse d-lg-block">
+      </aside>
+
+      <main th:utext="${CENTER}"
+            class="col-lg-8 col-xl-9">
+      </main>
+
+      <aside th:utext="${RIGHT}" th:if="${RIGHT} ne ''">
+      </aside>
+    </div>
+  </div>
+</div>
+
+<footer th:utext="${BOTTOM}" th:if="${BOTTOM} ne ''"
+        class="bg-dark footer">
+</footer>
+
+<!--/*/ <th:block th:include="fragments/scripts :: scripts"> /*/-->
+<!--/*/ </th:block> /*/-->
+</body>
+</html>

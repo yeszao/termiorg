@@ -1,0 +1,43 @@
+<div th:fragment="widget(widgetHtmlForms, copied)"
+     class="card drag-item my-2"
+     th:classappend="${copied} ? 'copied'"
+     draggable="true"
+     th:each="widget: ${widgetHtmlForms}"
+     th:with="formId='widget-' + ${widget.id} + '-' + ${widget.htmlForm.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
+     th:id="${formId}">
+  <div class="card-header d-flex justify-content-between py-2">
+    <span th:text="${widget.name}">Widget Name</span>
+    <ul class="nav nav-pills" role="tablist">
+      <li class="nav-item ms-2">
+        <i class="bi bi-eye-fill active preview-btn" role="button" data-bs-toggle="pill"
+           th:data-bs-target="'#' + ${previewId}"
+           th:aria-controls="${previewId}"></i>
+      </li>
+      <li class="nav-item ms-2">
+        <i class="bi bi-gear-fill config-btn" role="button" data-bs-toggle="pill"
+           th:data-bs-target="'#' + ${configId}"
+           th:aria-controls="${configId}"></i>
+      </li>
+      <li class="nav-item ms-2">
+        <i class="bi bi-chevron-right collapse-btn" role="button" data-bs-toggle="collapse" aria-expanded="false"
+           th:data-bs-target="'#' + ${collapseId}"
+           th:aria-controls="${collapseId}"></i>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body collapse tab-content" th:id="${collapseId}">
+
+    <div th:id="${previewId}" class="tab-pane active preview-body">
+      <p class="card-text" th:text="${widget.description}">Widget Description</p>
+      <img th:src="${widget.previewImageUrl}" class="mw-100"/>
+    </div>
+
+    <div th:id="${configId}" class="tab-pane fade config-body">
+      <div th:each="group: ${widget.htmlForm.groups}">
+        <h2 class="h5 mb-4" th:text="${group.key}" th:if="${group.key} != ''"></h2>
+        <div th:replace="fragments/form_field:: formField(${group.value})"></div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head()">
+    <title>Termi</title>
+</head>
+<body>
+    <div th:replace="fragments/loading:: loading"></div>
+    <div th:replace="fragments/search_popup:: search_popup"></div>
+    <div th:replace="fragments/login_popup:: login_popup"></div>
+    <div th:replace="fragments/mini_cart:: mini_cart"></div>
+    <div th:replace="fragments/quick_view:: quick_view"></div>
+    <header th:replace="fragments/header:: header"></header>
+
+    <main>
+        <!-- Home Slider -->
+        <div class="slick-carousel slick-nav-rounded" data-slick='{
+            "slidesToShow": 1,
+            "slidesToScroll": 1,
+            "arrows": true,
+            "fade": true,
+        }'>
+            <div class="bg-no-repeat bg-cover bg-right-center px-8" style="background-image: url(static/img/home-banner-3.jpg);">
+                <div class="container">
+                    <div class="row min-vh-100 align-items-center py-12">
+                        <div class="col-lg-8 col-xl-6 pt-8 pt-lg-12">
+                            <h6 class="fw-500 text-white mb-4">You're Looking Good</h6>
+                            <h1 class="display-2 fw-600 text-white">Final Clearance Up to 80% Off</h1>
+                            <div class="pt-5">
+                                <a class="btn btn-outline-white" href="shop-fw-without-filtres.html">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-no-repeat bg-cover bg-right-center px-8" style="background-image: url(static/img/home-banner-4.jpg);">
+                <div class="container">
+                    <div class="row min-vh-100 align-items-center py-12">
+                        <div class="col-lg-8 col-xl-6 pt-8 pt-lg-12">
+                            <h6 class="fw-500 text-white mb-4">You're Looking Good</h6>
+                            <h1 class="display-2 fw-600 text-white">Final Clearance Up to 80% Off</h1>
+                            <div class="pt-5">
+                                <a class="btn btn-outline-white" href="shop-fw-without-filtres.html">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Home Slider -->
+        <!-- section -->
+        <section class="section bg-gray-100">
+            <div class="container">
+                <div class="row justify-content-center section-heading">
+                    <div class="col-lg-6 text-center">
+                        <h3 class="h2 mt-2">Shop by Category</h3>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="hover-scale">
+                            <div class="hover-scale-in">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/shop-banner-4.png}" title="" alt="">
+                                </a>
+                            </div>
+                            <div class="text-center mx-4 mt-n5 position-relative z-index-1 bg-white shadow p-4">
+                                <h6 class="m-0"><a class="text-reset" href="shop-fw-without-filtres.html">Accessories</a></h6>
+                                <small>25 Products</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="hover-scale">
+                            <div class="hover-scale-in">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/shop-banner-8.png}" title="" alt="">
+                                </a>
+                            </div>
+                            <div class="text-center mx-4 mt-n5 position-relative z-index-1 bg-white shadow p-4">
+                                <h6 class="m-0"><a class="text-reset" href="shop-fw-without-filtres.html">Accessories</a></h6>
+                                <small>25 Products</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="hover-scale">
+                            <div class="hover-scale-in">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/shop-banner-6.png}" title="" alt="">
+                                </a>
+                            </div>
+                            <div class="text-center mx-4 mt-n5 position-relative z-index-1 bg-white shadow p-4">
+                                <h6 class="m-0"><a class="text-reset" href="shop-fw-without-filtres.html">Accessories</a></h6>
+                                <small>25 Products</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="hover-scale">
+                            <div class="hover-scale-in">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/shop-banner-7.png}" title="" alt="">
+                                </a>
+                            </div>
+                            <div class="text-center mx-4 mt-n5 position-relative z-index-1 bg-white shadow p-4">
+                                <h6 class="m-0"><a class="text-reset" href="shop-fw-without-filtres.html">Accessories</a></h6>
+                                <small>25 Products</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End section -->
+        <!-- Product section -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center section-heading">
+                    <div class="col-lg-6 text-center">
+                        <p class="fs-6 m-0">Read Today’s News.</p>
+                        <h3 class="h2 mt-2">Latest Arrivals</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-1.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-2.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-3.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-4.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-5.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-6.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-7.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="col-md-6 col-lg-3 my-3">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-8.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                </div>
+            </div>
+        </section>
+        <!-- End Product section -->
+        <!-- call to action -->
+        <section>
+            <div class="container">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="position-relative hover-scale">
+                            <div class="hover-scale-in">
+                                <img class="w-100" th:src="@{/static/img/shop-banner-9.jpg}" title="" alt="">
+                            </div>
+                            <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center top-0 left-0">
+                                <div class="text-center bg-white px-4 py-3 r-5">
+                                    <h6 class="text-uppercase fw-lighten text-primary mb-3">NEW IN</h6>
+                                    <h3 class="fw-600 h4">New Arrival</h3>
+                                    <div class="pt-2">
+                                        <a class="btn btn-dark btn-sm" href="shop-fw-without-filtres.html">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative hover-scale">
+                            <div class="hover-scale-in">
+                                <img class="w-100" th:src="@{/static/img/shop-banner-10.jpg}" title="" alt="">
+                            </div>
+                            <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center top-0 left-0">
+                                <div class="text-center bg-white px-4 py-3 r-5">
+                                    <h6 class="text-uppercase fw-lighten text-primary mb-3">NEW IN</h6>
+                                    <h3 class="fw-600 h4">Upcoming</h3>
+                                    <div class="pt-2">
+                                        <a class="btn btn-dark btn-sm" href="shop-fw-without-filtres.html">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative hover-scale">
+                            <div class="hover-scale-in">
+                                <img class="w-100" th:src="@{/static/img/shop-banner-11.jpg}" title="" alt="">
+                            </div>
+                            <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center top-0 left-0">
+                                <div class="text-center bg-white px-4 py-3 r-5">
+                                    <h6 class="text-uppercase fw-lighten text-primary mb-3">NEW IN</h6>
+                                    <h3 class="fw-600 h4">Flat 50% off</h3>
+                                    <div class="pt-2">
+                                        <a class="btn btn-dark btn-sm" href="shop-fw-without-filtres.html">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End call to action -->
+        <!-- Product section -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center section-heading">
+                    <div class="col-lg-6 text-center">
+                        <h3 class="h2 mb-2">Shop The Collection</h3>
+                        <p class="fs-6 m-0">Read Today’s News.</p>
+                    </div>
+                </div>
+                <div class="slick-carousel slick-nav-dark" data-slick='{
+                    "slidesToShow": 4,
+                    "slidesToScroll": 1,
+                    "centerMode": false,
+                    "focusOnSelect": true,
+                    "infinite": false,
+                    "responsive": [
+                        {
+                            "breakpoint":1200,
+                            "settings":{
+                                "slidesToShow": 4
+                            }
+                        },
+                        {
+                            "breakpoint":992,
+                            "settings":{
+                                "slidesToShow": 3
+                            }
+                        },
+                        {
+                            "breakpoint":768,
+                            "settings":{
+                                "slidesToShow": 2
+                            }
+                        },
+                        {
+                            "breakpoint":576,
+                            "settings":{
+                                "slidesToShow": 1
+                            }
+                        }
+                    ]
+                    }'>
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-3.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-4.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-5.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-6.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-7.jpg}" title="" alt="">
+                                    </a>
+                                   <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                    <!-- Product Box -->
+                    <div class="p-2">
+                        <div class="product-card-2">
+                            <div class="product-card-image">
+                                <div class="badge-ribbon">
+                                    <span class="badge bg-info">Sale</span>
+                                </div>
+                                <div class="product-wishlist">
+                                    <a href="wishlist.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="product-media">
+                                    <a href="product-details.html">
+                                        <img class="img-fluid" th:src="@{/static/img/product-8.jpg}" title="" alt="">
+                                    </a>
+                                    <div class="product-action nav justify-content-center">
+                                        <a href="shopping-cart.html" class="btn btn-primary">
+                                            <i class="bi bi-cart"></i>
+                                        </a>
+                                        <a href="shop-compare.html" class="btn btn-primary">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </a>
+                                        <a data-bs-toggle="modal" data-bs-target="#px-quick-view" href="javascript:void(0)" class="btn btn-primary">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card-info">
+                                <div class="rating-star text">
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star-fill active"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <h6 class="product-title">
+                                    <a href="shop-fw-without-filtres.html">Fine-knit sweater</a>
+                                </h6>
+                                <div class="product-price">
+                                    <span class="text-primary">$28.<small>50</small></span>
+                                    <del class="fs-sm text-muted">$38.<small>50</small></del>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Product Box -->
+                </div>
+            </div>
+        </section>
+        <!-- End Product section -->
+        <!-- blog -->
+        <section class="section bg-gray-100">
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-6 text-center">
+                        <h3 class="h2 mb-2">New Blog Posts</h3>
+                        <p class="fs-6 m-0">Read Today’s News.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 my-3">
+                        <div class="hover-scale text-center">
+                             <div class="hover-scale-in position-relative">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/blog-2.jpg}" title="" alt="">
+                                </a>
+                                <div class="position-absolute top-0 start-0 mt-3 ms-3 bg-white d-flex flex-column align-items-center px-3 py-2">
+                                    <span class="h4 m-0">25</span>
+                                    <small>MAR</small>
+                                </div>
+                            </div>
+                            <div class="px-3 py-4 mx-3 mx-lg-5 bg-white mt-n6 position-relative rounded">
+                                <h5>
+                                    <a class="text-reset" href="shop-fw-without-filtres.html">Make your Marketing website</a>
+                                </h5>
+                                <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 my-3">
+                        <div class="hover-scale text-center">
+                             <div class="hover-scale-in position-relative">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/blog-1.jpg}" title="" alt="">
+                                </a>
+                                <div class="position-absolute top-0 start-0 mt-3 ms-3 bg-white d-flex flex-column align-items-center px-3 py-2">
+                                    <span class="h4 m-0">25</span>
+                                    <small>MAR</small>
+                                </div>
+                            </div>
+                            <div class="px-3 py-4 mx-3 mx-lg-5 bg-white mt-n6 position-relative rounded">
+                                <h5>
+                                    <a class="text-reset" href="shop-fw-without-filtres.html">Make your Marketing website</a>
+                                </h5>
+                                <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 my-3">
+                        <div class="hover-scale text-center">
+                             <div class="hover-scale-in position-relative">
+                                <a href="shop-fw-without-filtres.html">
+                                    <img class="img-fluid" th:src="@{/static/img/blog-3.jpg}" title="" alt="">
+                                </a>
+                                <div class="position-absolute top-0 start-0 mt-3 ms-3 bg-white d-flex flex-column align-items-center px-3 py-2">
+                                    <span class="h4 m-0">25</span>
+                                    <small>MAR</small>
+                                </div>
+                            </div>
+                            <div class="px-3 py-4 mx-3 mx-lg-5 bg-white mt-n6 position-relative rounded">
+                                <h5>
+                                    <a class="text-reset" href="shop-fw-without-filtres.html">Make your Marketing website</a>
+                                </h5>
+                                <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End blog -->
+    </main>
+
+    <footer th:replace="fragments/footer:: footer"></footer>
+
+    <!--/*/ <th:block th:include="fragments/scripts :: scripts"> /*/-->
+    <!--/*/ </th:block> /*/-->
+</body>
+</html>

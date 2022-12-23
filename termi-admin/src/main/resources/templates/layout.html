@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head(${title})">
+  <title>Dashboard</title>
+</head>
+<body>
+
+<nav th:replace="fragments/left_navbar_button:: left_navbar_button"></nav>
+
+<nav th:replace="fragments/left_navbar:: left_navbar"></nav>
+
+<main class="content">
+  <nav th:replace="fragments/top_navbar:: top_navbar(${title})"></nav>
+
+  <div class="row my-6">
+    <div class="col-12 col-xl-9">
+      <div class="card card-body border-0 shadow mb-4">
+        <!-- TOP -->
+        <div class="row">
+          <div class="drop-area drop-top col-12 py-4" id="top">
+            <div th:replace="fragments/widget:: widget(${topHtmlForms}, true)"></div>
+          </div>
+        </div>
+
+        <div class="row my-3">
+          <!-- LEFT -->
+          <div class="drop-area drop-left col-3 py-4" id="left">
+            <div th:replace="fragments/widget:: widget(${leftHtmlForms}, true)"></div>
+          </div>
+
+
+          <!-- CENTER -->
+          <div class="drop-area drop-center col-6 py-4" id="center">
+            <div th:replace="fragments/widget:: widget(${centerHtmlForms}, true)"></div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="drop-area drop-right col-3 py-4" id="right">
+            <div th:replace="fragments/widget:: widget(${rightHtmlForms}, true)"></div>
+          </div>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="row">
+          <div class="drop-area drop-bottom col-12 py-4" id="bottom">
+            <div th:replace="fragments/widget:: widget(${bottomHtmlForms}, true)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-3">
+      <div class="row px-3">
+        <div class="card card-body border-0 shadow mb-4">
+          <div th:replace="fragments/widget:: widget(${widgetForms}, false)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<!--/*/<th:block th:replace="fragments/scripts :: scripts">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/lib/codemirror.min.js"></script>
+
+<script type="application/javascript">
+    const drop = function (ev) {
+        ev.preventDefault();
+        var draggingId = ev.dataTransfer.getData("text/plain");
+        var draggedEl = document.getElementById(draggingId);
+
+        if (draggedEl === null) {
+            return;
+        }
+
+        if (draggedEl.classList.contains("copied")) {
+            // Move element
+            ev.target.appendChild(draggedEl);
+        } else {
+            const now = new Date().getTime();
+
+            // Copy element and give a new id
+            const copiedNode = draggedEl.cloneNode(true);
+            copiedNode.id = "widget-" + now;
+            copiedNode.classList.add("copied");
+
+            // Set copied card body a new id
+            const newCardBodyId = 'collapse-' + copiedNode.id;
+            const cardBody = copiedNode.getElementsByClassName("card-body")[0];
+            const collapseBtn = copiedNode.getElementsByClassName("collapse-btn")[0];
+            cardBody.setAttribute('id', newCardBodyId);
+            collapseBtn.setAttribute('data-bs-target', '#' + newCardBodyId);
+            collapseBtn.setAttribute('aria-controls', newCardBodyId);
+
+            // Set preview body a new id
+            const newPreviewId = 'preview-' + copiedNode.id;
+            const previewBody = copiedNode.getElementsByClassName("preview-body")[0];
+            const previewBtn = copiedNode.getElementsByClassName("preview-btn")[0];
+            previewBody.setAttribute('id', newPreviewId);
+            previewBody.classList.remove('active', 'show');
+            previewBtn.setAttribute('data-bs-target', '#' + newPreviewId);
+            previewBtn.classList.remove('active');
+
+            // Set config body a new id
+            const newConfigId = 'config-' + copiedNode.id;
+            const configBody = copiedNode.getElementsByClassName("config-body")[0];
+            const configBtn = copiedNode.getElementsByClassName("config-btn")[0];
+            configBody.setAttribute('id', newConfigId);
+            configBody.classList.add('active', 'show');
+            configBtn.setAttribute('data-bs-target', '#' + newConfigId);
+            configBtn.classList.add('active');
+
+
+            // append copied card to drop area
+            ev.target.appendChild(copiedNode);
+        }
+    }
+
+    addListener("drop-area", "drop", drop);
+
+    addListener("drop-area", "dragenter", function (ev) {
+        ev.target.classList.add("border-dashed");
+    });
+
+    addListener("drop-area", "dragleave", function (ev) {
+        ev.target.classList.remove("border-dashed");
+    });
+
+    addListener("drop-area", "dragover", function (ev) {
+        ev.preventDefault();
+    });
+
+
+    addListener("drag-item", "dragstart", function (ev) {
+        ev.dataTransfer.effectAllowed = "copyMove";
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+    });
+
+    addListener("drag-item", "drop", function (ev) {
+        return false;
+    });
+
+    var movingEl = null;
+    addListener("copied", "dragstart", function (ev) {
+        ev.dataTransfer.effectAllowed = "move";
+        movingEl = ev.target;
+    });
+
+    addListener("copied", "dragover", function (ev) {
+        if (movingEl == null || !movingEl.classList.contains("copied")) {
+            return;
+        }
+
+        if (isBefore(movingEl, ev.target))
+            ev.target.parentNode.insertBefore(movingEl, ev.target);
+        else
+            ev.target.parentNode.insertBefore(movingEl, ev.target.nextSibling);
+    });
+
+    initHtmlEditor("html-editor");
+</script>
+
+</body>
+</html>

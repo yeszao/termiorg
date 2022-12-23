@@ -1,0 +1,22 @@
+<head th:fragment="head()">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title th:text="${title}"></title>
+  <meta name="description" th:content="${description}">
+  <meta name="keywords" th:content="${keywords}">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" th:href="@{/static/img/logo/favicon.ico}">
+  <!-- Fonts CSS -->
+  <link rel="stylesheet" th:href="@{/static/vendor/fonts/fonts.css}">
+  <!-- Bootstrap-icons CSS -->
+  <link rel="stylesheet" th:href="@{/static/vendor/bootstrap/icons/bootstrap-icons.css}">
+  <!--Magnific-Popup CSS -->
+  <link rel="stylesheet" th:href="@{/static/vendor/magnific/magnific-popup.css}">
+  <!-- Slick CSS -->
+  <link rel="stylesheet" th:href="@{/static/vendor/slick/slick.css}">
+  <!-- Style CSS -->
+  <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>

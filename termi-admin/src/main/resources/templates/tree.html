@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head(${title})">
+  <title>Page title</title>
+</head>
+<body>
+
+<nav th:replace="fragments/left_navbar_button:: left_navbar_button"></nav>
+<nav th:replace="fragments/left_navbar:: left_navbar"></nav>
+
+<main class="content">
+  <nav th:replace="fragments/top_navbar:: top_navbar(${title})"></nav>
+
+  <div th:replace="fragments/message:: message"></div>
+
+  <!-- Table Tools -->
+  <div class="table-settings my-4 mt-6">
+    <div th:replace="fragments/list_toolbar:: list_toolbar"></div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="card border-0 shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table th:replace="fragments/tree_table:: tree_node(${tree.columns}, ${tree.rows})"></table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+<!--/*/ <th:block th:replace="fragments/scripts :: scripts"> /*/-->
+<!--/*/ </th:block> /*/-->
+
+<script th:inline="javascript" th:if="${PAGE_NAME} ne null">
+    /*<![CDATA[*/
+    var pageName = /*[[${PAGE_NAME}]]*/ '';
+    /*]]>*/
+</script>
+
+<script type="application/javascript">
+    const prefixOfStoredCollapseId = pageName + "-collapse-";
+
+    const getBsCollapse = function (element) {
+        var collapseInstance = bootstrap.Collapse.getInstance(element);
+        return collapseInstance ? collapseInstance :
+            new bootstrap.Collapse(element, { toggle: false })
+    }
+
+    Array.from(document.getElementsByClassName("collapse")).forEach(function (collapseEl) {
+        const key = prefixOfStoredCollapseId + collapseEl.id;
+        collapseEl.addEventListener("shown.bs.collapse", function (e) {
+            e.stopPropagation();
+            localStorage.setItem(key, "true");
+        });
+
+        collapseEl.addEventListener("hidden.bs.collapse", function (e) {
+            e.stopPropagation();
+            localStorage.removeItem(key);
+        });
+
+        const instance = getBsCollapse(collapseEl);
+        if (localStorage.getItem(key) === "true") {
+            instance.show();
+        } else {
+            instance.hide();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+server:
+  port: 8088
+
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+  main:
+    allow-bean-definition-overriding: true

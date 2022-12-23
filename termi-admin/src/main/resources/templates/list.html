@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head(${title})">
+  <title>Page title</title>
+</head>
+<body>
+
+<nav th:replace="fragments/left_navbar_button:: left_navbar_button"></nav>
+<nav th:replace="fragments/left_navbar:: left_navbar"></nav>
+
+<main class="content">
+  <nav th:replace="fragments/top_navbar:: top_navbar(${title})"></nav>
+
+  <div th:replace="fragments/message:: message"></div>
+
+  <!-- Table Tools -->
+  <div class="table-settings my-4 mt-6">
+    <div th:replace="fragments/list_toolbar:: list_toolbar"></div>
+  </div>
+
+  <!-- Table Content -->
+  <div class="card border-0 shadow mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-centered table-nowrap mb-0 rounded table-hover">
+          <thead class="thead-light">
+          <tr>
+            <th class="border-0"
+                role="button"
+                th:each="column, iter : ${pageable.columns}"
+                th:text="${column.label}"
+                th:classappend="${iter.index} == 0 ? rounded-start : ''"
+                th:data-field="${column.columnName}"
+                onclick="reverseSort(this.getAttribute('data-field'));"
+            ></th>
+            <th class="border-0 rounded-end">Operation</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <!-- Item -->
+          <tr th:each="row : ${pageable.rows}">
+            <td th:each="column, iter : ${pageable.columns}"
+                th:class="'col-' + ${column.grid}"
+            th:switch="${column.formType}">
+              <th:block th:if="${column.linkUrl} != ''">
+                <a th:href="@{${column.linkUrl}(${column.linkParamKey}=${row.id})}">
+              </th:block>
+
+                <img class="img-thumbnail"
+                     th:case="${T(org.termi.common.enumeration.FormType).IMAGE}"
+                     th:if="${row[column.columnName]}"
+                     th:src="${UPLOAD_BASE_URL} + ${row[column.columnName]}"/>
+
+                <span th:case="*" th:text="${row[column.columnName]}"></span>
+
+              <th:block  th:if="${column.linkUrl} != ''">
+                </a>
+              </th:block>
+            </td>
+            <td class="col-2">
+              <a class="me-2" th:href="@{${EDIT_URL}(id=${row.id})}">Edit</a>
+
+              <div class="dropdown btn-group">
+                <button class="btn btn-link text-danger dropdown-toggle m-0 p-0" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                  Delete
+                </button>
+                <ul class="dropdown-menu mt-2 py-1">
+                  <li>
+                    <a class="dropdown-item" th:href="@{${DELETE_URL}(id=${row.id})}">
+                      <i class="bi bi-exclamation-triangle me-2 text-danger"></i> Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <!-- End of Item -->
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+      <select class="form-select w-auto" style="min-width: 80px;" onchange="jumpWithParameter('size', this.value)">
+        <option value="10" th:selected="${pageable.size} == 10">10</option>
+        <option value="50" th:selected="${pageable.size} == 50">50</option>
+        <option value="100" th:selected="${pageable.size} == 100">100</option>
+      </select>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0 me-2">
+          <li class="page-item">
+            <button class="page-link"
+                    th:onclick="'jumpWithParameter(\'page\', ' + 1 + ');'"
+                    th:disabled="${pageable.first}"
+            >First</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link"
+                    th:onclick="'jumpWithParameter(\'page\', ' + ${pageable.page - 1} + ');'"
+                    th:disabled="${pageable.first}"
+                    >Prev</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link" disabled>[[${pageable.page}]] / [[${pageable.totalPages}]]</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link"
+                    th:onclick="'jumpWithParameter(\'page\', ' + ${pageable.page + 1} + ');'"
+                    th:disabled="${pageable.last}"
+                    >Next</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link"
+                    th:onclick="'jumpWithParameter(\'page\', ' + ${pageable.totalPages} + ');'"
+                    th:disabled="${pageable.last}"
+            >Last</button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="fw-normal small mt-4 mt-lg-0">
+        <b th:text="${pageable.numberOfElements}"></b>
+        out of
+        <b th:text="${pageable.totalElements}"></b>
+        entries
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+<!--/*/ <th:block th:replace="fragments/scripts :: scripts"> /*/-->
+<!--/*/ </th:block> /*/-->
+
+<script type="application/javascript">
+    function reverseSort(field) {
+        var newDirection = "desc";
+
+        const params = getParameters();
+        var sort = params.sort;
+
+        if (sort !== null && sort !== undefined) {
+            const sortItems = sort.split(",")
+            if (sortItems.length >= 2 && sortItems[1] === "desc") {
+                newDirection = "asc";
+            }
+        }
+
+        jumpWithParameter("sort", field + "," + newDirection)
+    }
+
+    function getParameters() {
+        return new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+    }
+    /**
+     * https://stackoverflow.com/questions/1090948/change-url-parameters-and-specify-defaults-using-javascript
+     */
+    function updateUrlParameter(url, param, paramVal) {
+        var TheAnchor = null;
+        var newAdditionalURL = "";
+        var tempArray = url.split("?");
+        var baseURL = tempArray[0];
+        var additionalURL = tempArray[1];
+        var temp = "";
+
+        if (additionalURL) {
+            var tmpAnchor = additionalURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+            if (TheAnchor)
+                additionalURL = TheParams;
+
+            tempArray = additionalURL.split("&");
+
+            for (var i = 0; i < tempArray.length; i++) {
+                if (tempArray[i].split('=')[0] != param) {
+                    newAdditionalURL += temp + tempArray[i];
+                    temp = "&";
+                }
+            }
+        } else {
+            var tmpAnchor = baseURL.split("#");
+            var TheParams = tmpAnchor[0];
+            TheAnchor = tmpAnchor[1];
+
+            if (TheParams)
+                baseURL = TheParams;
+        }
+
+        if (TheAnchor)
+            paramVal += "#" + TheAnchor;
+
+        var rows_txt = temp + "" + param + "=" + paramVal;
+        return baseURL + "?" + newAdditionalURL + rows_txt;
+    }
+
+    function jumpWithParameter(key, value) {
+        console.log("Jumping...")
+        window.location.href = updateUrlParameter(window.location.href, key, value);
+    }
+</script>
+
+</body>
+</html>
