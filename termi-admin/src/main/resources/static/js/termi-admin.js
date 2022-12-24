@@ -204,9 +204,10 @@ const setupWidgetTargetForm = function () {
         form.addEventListener('submit', function (ev) {
             ev.preventDefault();
             const url = this.action;
-            let result = postData(url, this);
+            const formData = convertFormDataToJson(new FormData(this));
 
-            console.log(result);
+            postData(url, formData)
+                .then((json) => console.log(json));
         });
     }
 }
@@ -215,7 +216,7 @@ const postData = async function (url, data) {
     const response = await fetch(url, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
+        body: data
     });
 
     return response.json();

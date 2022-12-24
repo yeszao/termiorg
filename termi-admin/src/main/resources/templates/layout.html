@@ -70,12 +70,14 @@
     setupDragElements();
     setupHtmlEditor(document);
     setupWidgetSourceForm();
+    setupWidgetTargetForm();
 
     setupDropArea((ev) => {
         let copiedNode = drop(ev);
         setupDragElements();
         setupHtmlEditor(copiedNode);
         setupWidgetSourceForm();
+        setupWidgetTargetForm();
     });
 </script>
 

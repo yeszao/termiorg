@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 @Data
@@ -17,8 +18,14 @@ public class WidgetInstance extends BaseEntity {
     @ManyToOne
     private Layout layout;
 
+    @Transient
+    private long layoutId;
+
     @ManyToOne
     private Widget widget;
+
+    @Transient
+    private long widgetId;
 
     private int sort;
 
