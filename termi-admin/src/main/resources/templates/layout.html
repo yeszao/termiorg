@@ -69,13 +69,13 @@
 <script type="application/javascript">
     setupDragElements();
     setupHtmlEditor(document);
-    setupWidgetForm();
+    setupWidgetSourceForm();
 
     setupDropArea((ev) => {
         let copiedNode = drop(ev);
         setupDragElements();
         setupHtmlEditor(copiedNode);
-        setupWidgetForm();
+        setupWidgetSourceForm();
     });
 </script>
 

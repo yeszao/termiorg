@@ -17,6 +17,7 @@ const dragSelectors = ".drag-item";
 const htmlEditorSelectors = ".html-editor";
 const widgetSourceFormSelectors = ".source-form";
 const widgetTargetFormClass = "target-form";
+const widgetTargetFormSelectors = "." + widgetTargetFormClass;
 
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
@@ -32,6 +33,14 @@ const setupDragElements = function () {
     }
 }
 
+const updateWidgetInstancePosition = function (parentEl, position) {
+    const positionEl = parentEl.querySelector("input[name=position]");
+    if (positionEl) {
+        positionEl.value = position;
+    }
+}
+
+
 const drop = function (ev) {
     ev.preventDefault();
     let draggingId = ev.dataTransfer.getData("text/plain");
@@ -40,9 +49,12 @@ const drop = function (ev) {
         return;
     }
 
+    const newPosition = ev.target.id.toUpperCase();
+
     // For copied node, just move it
     if (draggedEl.classList.contains("copied")) {
         ev.target.appendChild(draggedEl);
+        updateWidgetInstancePosition(draggedEl, newPosition);
         return;
     }
 
@@ -80,6 +92,7 @@ const drop = function (ev) {
 
     // append copied card to drop area
     ev.target.appendChild(copiedNode);
+    updateWidgetInstancePosition(copiedNode, newPosition);
     return copiedNode;
 }
 
@@ -168,11 +181,11 @@ const convertFormDataToJson = function (formData) {
 }
 
 
-const setupWidgetForm = function () {
-    const sourceForms = document.querySelectorAll(widgetSourceFormSelectors);
-    for (let i = 0; i < sourceForms.length; i++) {
-        let sourceForm = sourceForms[i];
-        sourceForm.addEventListener('change', function (ev) {
+const setupWidgetSourceForm = function () {
+    const forms = document.querySelectorAll(widgetSourceFormSelectors);
+    for (let i = 0; i < forms.length; i++) {
+        let form = forms[i];
+        form.addEventListener('change', function (ev) {
             const _form = this;
             const targetForm = _form.nextElementSibling;
 
@@ -183,3 +196,27 @@ const setupWidgetForm = function () {
         });
     }
 }
+
+const setupWidgetTargetForm = function () {
+    const forms = document.querySelectorAll(widgetTargetFormSelectors);
+    for (let i = 0; i < forms.length; i++) {
+        let form = forms[i];
+        form.addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            const url = this.action;
+            let result = postData(url, this);
+
+            console.log(result);
+        });
+    }
+}
+
+const postData = async function (url, data) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+
+    return response.json();
+};
