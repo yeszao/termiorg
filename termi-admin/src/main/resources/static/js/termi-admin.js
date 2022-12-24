@@ -225,7 +225,7 @@ const showError = function (message) {
 }
 
 const saveForm = function (formEl, promptOnSuccess) {
-    if (!formEl) {
+    if (formEl == null) {
         console.error("Form element didn't specify!")
         return;
     }
