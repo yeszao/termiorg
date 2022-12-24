@@ -127,6 +127,10 @@ const creatHtmlEditor = function (el) {
         lineWrapping: true,
         mode: "htmlmixed",
     });
+
+    editor.on("change", function (cm) {
+        el.value = cm.getValue();
+    });
 }
 
 const setupHtmlEditor = function (rootEl) {
@@ -165,15 +169,17 @@ const convertFormDataToJson = function (formData) {
 
 
 const setupWidgetForm = function () {
-    const sourceForm = document.querySelector(widgetSourceFormSelectors);
-    sourceForm.addEventListener('change', function (ev) {
-        const _form = this;
-        const targetForm = _form.nextElementSibling;
-        if (!targetForm.classList.contains(widgetTargetFormClass)) {
-            return;
-        }
+    const sourceForms = document.querySelectorAll(widgetSourceFormSelectors);
+    for (let i = 0; i < sourceForms.length; i++) {
+        let sourceForm = sourceForms[i];
+        sourceForm.addEventListener('change', function (ev) {
+            const _form = this;
+            const targetForm = _form.nextElementSibling;
 
-        const data = new FormData(_form);
-        targetForm['configuration'].value = convertFormDataToJson(data);
-    });
+            if (targetForm.classList.contains(widgetTargetFormClass)) {
+                const data = new FormData(_form);
+                targetForm['configuration'].value = convertFormDataToJson(data);
+            }
+        });
+    }
 }
