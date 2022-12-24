@@ -67,9 +67,16 @@
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/lib/codemirror.min.js"></script>
 
 <script type="application/javascript">
-    setupDropArea();
     setupDragElements();
     setupHtmlEditor(document);
+    setupWidgetForm();
+
+    setupDropArea((ev) => {
+        let copiedNode = drop(ev);
+        setupDragElements();
+        setupHtmlEditor(copiedNode);
+        setupWidgetForm();
+    });
 </script>
 
 </body>

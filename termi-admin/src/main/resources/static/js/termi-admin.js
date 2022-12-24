@@ -15,6 +15,8 @@ if (typeof (String.prototype.trimSlash) === "undefined") {
 const dropSelectors = ".drop-area";
 const dragSelectors = ".drag-item";
 const htmlEditorSelectors = ".html-editor";
+const widgetSourceFormSelectors = ".source-form";
+const widgetTargetFormClass = "target-form";
 
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
@@ -81,15 +83,11 @@ const drop = function (ev) {
     return copiedNode;
 }
 
-const setupDropArea = function () {
+const setupDropArea = function (dropCallback) {
     const elements = document.querySelectorAll(dropSelectors);
     for (let i = 0; i < elements.length; i++) {
         let el = elements[i];
-        el.addEventListener("drop", (ev) => {
-            let copiedNode = drop(ev);
-            setupDragElements();
-            setupHtmlEditor(copiedNode);
-        });
+        el.addEventListener("drop", dropCallback);
         el.addEventListener("dragenter", (ev) => ev.target.classList.add("border-dashed"));
         el.addEventListener("dragleave", (ev) => ev.target.classList.remove("border-dashed"));
         el.addEventListener("dragover", (ev) => ev.preventDefault());
@@ -145,4 +143,37 @@ const setupHtmlEditor = function (rootEl) {
         }
         creatHtmlEditor(textareaEl);
     }
+}
+
+
+const convertFormDataToJson = function (formData) {
+    var object = {};
+    formData.forEach((value, key) => {
+        // Reflect.has in favor of: object.hasOwnProperty(key)
+        if(!Reflect.has(object, key)){
+            object[key] = value;
+            return;
+        }
+        if(!Array.isArray(object[key])){
+            object[key] = [object[key]];
+        }
+        object[key].push(value);
+    });
+
+    return JSON.stringify(object);
+}
+
+
+const setupWidgetForm = function () {
+    const sourceForm = document.querySelector(widgetSourceFormSelectors);
+    sourceForm.addEventListener('change', function (ev) {
+        const _form = this;
+        const targetForm = _form.nextElementSibling;
+        if (!targetForm.classList.contains(widgetTargetFormClass)) {
+            return;
+        }
+
+        const data = new FormData(_form);
+        targetForm['configuration'].value = convertFormDataToJson(data);
+    });
 }
