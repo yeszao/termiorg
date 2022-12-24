@@ -29,7 +29,9 @@ const setupDragElements = function () {
             ev.dataTransfer.setData("text/plain", ev.target.id);
         });
 
-        el.addEventListener("drop",  (ev) => {return false;});
+        el.addEventListener("drop", (ev) => {
+            return false;
+        });
     }
 }
 
@@ -46,7 +48,7 @@ const drop = function (ev) {
     let draggingId = ev.dataTransfer.getData("text/plain");
     let draggedEl = document.getElementById(draggingId);
     if (draggedEl === null) {
-        return;
+        return {action: "nothing", el: null};
     }
 
     const newPosition = ev.target.id.toUpperCase();
@@ -55,7 +57,7 @@ const drop = function (ev) {
     if (draggedEl.classList.contains("copied")) {
         ev.target.appendChild(draggedEl);
         updateWidgetInstancePosition(draggedEl, newPosition);
-        return;
+        return {action: "copy", el: draggedEl};
     }
 
     // Otherwise, copy a new node, and give it a new id
@@ -93,7 +95,7 @@ const drop = function (ev) {
     // append copied card to drop area
     ev.target.appendChild(copiedNode);
     updateWidgetInstancePosition(copiedNode, newPosition);
-    return copiedNode;
+    return {action: "copy", el: copiedNode};
 }
 
 const setupDropArea = function (dropCallback) {
@@ -167,11 +169,11 @@ const convertFormDataToJson = function (formData) {
     var object = {};
     formData.forEach((value, key) => {
         // Reflect.has in favor of: object.hasOwnProperty(key)
-        if(!Reflect.has(object, key)){
+        if (!Reflect.has(object, key)) {
             object[key] = value;
             return;
         }
-        if(!Array.isArray(object[key])){
+        if (!Array.isArray(object[key])) {
             object[key] = [object[key]];
         }
         object[key].push(value);
@@ -203,21 +205,50 @@ const setupWidgetTargetForm = function () {
         let form = forms[i];
         form.addEventListener('submit', function (ev) {
             ev.preventDefault();
-            const url = this.action;
-            const formData = convertFormDataToJson(new FormData(this));
-
-            postData(url, formData)
-                .then((json) => console.log(json));
+            saveForm(this, true);
         });
     }
 }
 
+const showSuccess = function (message) {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: message,
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
+const showError = function (message) {
+    Swal.fire({icon: 'error', text: message});
+}
+
+const saveForm = function (formEl, promptOnSuccess) {
+    if (!formEl) {
+        console.error("Form element didn't specify!")
+        return;
+    }
+
+    const url = formEl.action;
+    const formData = convertFormDataToJson(new FormData(formEl));
+
+    postData(url, formData)
+        .then((response) => {
+            !response.ok && showError(response.json().message)
+            return response;
+        })
+        .then(() => {
+            promptOnSuccess && showSuccess("Saved");
+            promptOnSuccess || console.log("Saved");
+        })
+        .catch(error => showError(error));
+}
+
 const postData = async function (url, data) {
-    const response = await fetch(url, {
+    return await fetch(url, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: data
     });
-
-    return response.json();
 };

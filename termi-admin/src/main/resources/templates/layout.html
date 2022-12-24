@@ -73,11 +73,15 @@
     setupWidgetTargetForm();
 
     setupDropArea((ev) => {
-        let copiedNode = drop(ev);
+        let result = drop(ev);
         setupDragElements();
-        setupHtmlEditor(copiedNode);
         setupWidgetSourceForm();
         setupWidgetTargetForm();
+
+        result.action === "copy" && setupHtmlEditor(result.el);
+
+        let droppedForm = result.el.querySelector(widgetTargetFormSelectors);
+        result.action !== null && saveForm(droppedForm, false);
     });
 </script>
 
