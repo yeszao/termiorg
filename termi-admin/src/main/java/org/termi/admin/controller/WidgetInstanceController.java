@@ -16,6 +16,7 @@ import org.termi.common.repository.LayoutRepository;
 import org.termi.common.repository.WidgetRepository;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 import static org.termi.common.constant.AdminEndpoints.WIDGET_INSTANCE_ADD_URL;
 
@@ -34,7 +35,7 @@ public class WidgetInstanceController extends BaseController {
 
     @PostMapping(WIDGET_INSTANCE_ADD_URL)
     @ResponseBody
-    public Response<WidgetInstance> save(@Valid @RequestBody WidgetInstance entity) {
+    public Response<Map<String, Long>> save(@Valid @RequestBody WidgetInstance entity) {
         entity.setAddBy(0L);
         entity.setEditBy(0L);
 
@@ -50,7 +51,7 @@ public class WidgetInstanceController extends BaseController {
             service.update(oldEntity, entity);
         }
 
-        return Response.success();
+        return Response.success(Map.of("id", entity.getId()));
     }
 
 }

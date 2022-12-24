@@ -236,11 +236,12 @@ const saveForm = function (formEl, promptOnSuccess) {
     postData(url, formData)
         .then((response) => {
             !response.ok && showError(response.json().message)
-            return response;
+            return response.json();
         })
-        .then(() => {
+        .then((json) => {
             promptOnSuccess && showSuccess("Saved");
             promptOnSuccess || console.log("Saved");
+            formEl["id"].value = json.data.id;
         })
         .catch(error => showError(error));
 }
