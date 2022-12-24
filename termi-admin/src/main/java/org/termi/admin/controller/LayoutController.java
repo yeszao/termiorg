@@ -98,7 +98,7 @@ public class LayoutController extends BaseController {
                         -> {
                     Object configObject = JsonUtil.parse(widgetInstance.getConfiguration(), renderer.getConfigurationClass());
                     HtmlForm htmlForm = HtmlForm.of(widgetInstance.getId(), configObject);
-                    s.add(new WidgetForm(widgetInstance.getWidget(), htmlForm));
+                    s.add(new WidgetForm(widgetInstance.getWidget(), widgetInstance, htmlForm));
                 }
         );
 
@@ -109,10 +109,17 @@ public class LayoutController extends BaseController {
             Class<?> configClass = renderer.getConfigurationClass();
             HtmlForm htmlForm = new HtmlForm();
             try {
+                Object configObject = null;
                 if (!Objects.isNull(configClass)) {
-                    htmlForm = HtmlForm.of(configClass.getDeclaredConstructor().newInstance());
+                    configObject = configClass.getDeclaredConstructor().newInstance();
+                    htmlForm = HtmlForm.of(configObject);
                 }
-                widgetForms.add(new WidgetForm(widget, htmlForm));
+                WidgetInstance initInstance = new WidgetInstance();
+                initInstance.setConfiguration(JsonUtil.objectToString(configObject));
+                initInstance.setSort(49);
+                initInstance.setId(0);
+
+                widgetForms.add(new WidgetForm(widget, initInstance, htmlForm));
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 log.error("Cannot get widget configuration by it's class name. {}", e.toString());
@@ -127,6 +134,7 @@ public class LayoutController extends BaseController {
 
         model.addAttribute("widgetForms", widgetForms);
 
+        model.addAttribute("layoutId", id);
         model.addAttribute("title", "Edit Layout " + layout.getEndpoint());
         return "layout";
     }

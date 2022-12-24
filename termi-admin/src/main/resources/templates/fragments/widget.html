@@ -1,4 +1,4 @@
-<div th:fragment="widget(widgetHtmlForms, copied)"
+<div th:fragment="widget(widgetHtmlForms, position, copied)"
      class="card drag-item my-2"
      th:classappend="${copied} ? 'copied'"
      draggable="true"
@@ -35,7 +35,21 @@
     <div th:id="${configId}" class="tab-pane fade config-body">
       <div th:each="group: ${widget.htmlForm.groups}">
         <h2 class="h5 mb-4" th:text="${group.key}" th:if="${group.key} != ''"></h2>
-        <div th:replace="fragments/form_field:: formField(${group.value})"></div>
+        <form class="source-form">
+          <div th:replace="fragments/form_field:: formField(${group.value})"></div>
+        </form>
+
+        <form class="target-form" action="/admin/widget-instance/add" method="post">
+          <input type="hidden" name="id" th:value="${widget.widgetInstance.id}">
+          <input type="hidden" name="layoutId" th:value="${layoutId}">
+          <input type="hidden" name="widgetId" th:value="${widget.id}">
+
+          <input type="hidden" name="position" th:value="${position}">
+          <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
+          <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
+
+          <button type="submit">Save</button>
+        </form>
       </div>
     </div>
 

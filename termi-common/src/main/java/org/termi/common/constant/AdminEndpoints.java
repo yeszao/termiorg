@@ -73,6 +73,8 @@ public class AdminEndpoints {
     public static final String LAYOUT_EDIT_URL = "/admin/layouts/edit";
     public static final String LAYOUT_DELETE_URL = "/admin/layouts/delete";
 
+    public static final String WIDGET_INSTANCE_ADD_URL = "/admin/widget-instance/add";
+
     // Icon
     public static final String ICON_ALL_API = "/admin/api/icons";
 
