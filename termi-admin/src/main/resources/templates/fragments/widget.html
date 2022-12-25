@@ -1,6 +1,6 @@
 <div th:fragment="widget(widgetHtmlForms, position, copied)"
      class="card drag-item my-2"
-     th:classappend="${copied} ? 'copied'"
+     th:classappend="${copied} ? 'copied' : 'original'"
      draggable="true"
      th:each="widget: ${widgetHtmlForms}"
      th:with="formId='widget-' + ${widget.id} + '-' + ${widget.htmlForm.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
@@ -51,11 +51,11 @@
           <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
           <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
 
-          <button class="btn btn-primary btn-sm" type="submit">
+          <button class="btn btn-primary btn-sm form-btn" type="submit">
             <i class="bi bi-save me-1"></i> Save
           </button>
 
-          <div class="dropdown ms-2 d-inline-block">
+          <div class="dropdown ms-2 form-btn">
             <button class="btn btn-danger btn-sm" type="button" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-trash"></i>

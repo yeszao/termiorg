@@ -18,8 +18,14 @@ i[data-bs-toggle="collapse"][aria-expanded="false"],
     color: var(--bs-secondary);
 }
 
-.copied .remove-btn {
-    display: inline-block!important;
+.form-btn {
+    display: inline-block;
+}
+.original form.target-form {
+    pointer-events:none;
+}
+.original .form-btn {
+    display: none!important;
 }
 
 /* Upload dropzone */
