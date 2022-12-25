@@ -33,44 +33,43 @@
     </div>
 
     <div th:id="${configId}" class="tab-pane fade config-body">
-      <div th:each="group: ${widget.htmlForm.groups}">
-        <h2 class="h5 mb-4" th:text="${group.key}" th:if="${group.key} != ''"></h2>
-        <form class="source-form">
-          <div th:replace="fragments/form_field:: formField(${group.value})"></div>
-        </form>
+      <form class="source-form">
+        <div th:each="group: ${widget.htmlForm.groups}">
+          <h2 class="h5 mb-4" th:text="${group.key}" th:if="${group.key} != ''"></h2>
+            <div th:replace="fragments/form_field:: formField(${group.value})"></div>
+        </div>
+      </form>
+      <form class="target-form"
+            th:action="${WIDGET_INSTANCE_ADD_URL}"
+            th:data-delete-url="${WIDGET_INSTANCE_DELETE_URL}"
+            method="post">
+        <input type="hidden" name="id" th:value="${widget.widgetInstance.id}">
+        <input type="hidden" name="layoutId" th:value="${layoutId}">
+        <input type="hidden" name="widgetId" th:value="${widget.id}">
 
-        <form class="target-form"
-              th:action="${WIDGET_INSTANCE_ADD_URL}"
-              th:data-delete-url="${WIDGET_INSTANCE_DELETE_URL}"
-              method="post">
-          <input type="hidden" name="id" th:value="${widget.widgetInstance.id}">
-          <input type="hidden" name="layoutId" th:value="${layoutId}">
-          <input type="hidden" name="widgetId" th:value="${widget.id}">
+        <input type="hidden" name="position" th:value="${position}">
+        <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
+        <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
 
-          <input type="hidden" name="position" th:value="${position}">
-          <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
-          <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
+        <button class="btn btn-primary btn-sm form-btn" type="submit">
+          <i class="bi bi-save me-1"></i> Save
+        </button>
 
-          <button class="btn btn-primary btn-sm form-btn" type="submit">
-            <i class="bi bi-save me-1"></i> Save
+        <div class="dropdown ms-2 form-btn">
+          <button class="btn btn-danger btn-sm" type="button" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-trash"></i>
           </button>
+          <ul class="dropdown-menu mt-2 py-1">
+            <li>
+              <button class="dropdown-item remove-btn-confirm" type="button" role="button">
+                Confirm
+              </button>
+            </li>
+          </ul>
+        </div>
 
-          <div class="dropdown ms-2 form-btn">
-            <button class="btn btn-danger btn-sm" type="button" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-trash"></i>
-            </button>
-            <ul class="dropdown-menu mt-2 py-1">
-              <li>
-                <button class="dropdown-item remove-btn-confirm" type="button" role="button">
-                  Confirm
-                </button>
-              </li>
-            </ul>
-          </div>
-
-        </form>
-      </div>
+      </form>
     </div>
 
   </div>
