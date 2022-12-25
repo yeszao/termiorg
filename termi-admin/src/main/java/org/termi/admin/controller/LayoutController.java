@@ -94,7 +94,7 @@ public class LayoutController extends BaseController {
                 (List<Object> s, WidgetRender renderer, WidgetInstance widgetInstance)
                         -> {
                     Object configObject = JsonUtil.parse(widgetInstance.getConfiguration(), renderer.getConfigurationClass());
-                    HtmlForm htmlForm = HtmlForm.of(widgetInstance.getId(), configObject);
+                    HtmlForm htmlForm = HtmlForm.of(configObject);
                     s.add(new WidgetForm(widgetInstance.getWidget(), widgetInstance, htmlForm));
                 }
         );

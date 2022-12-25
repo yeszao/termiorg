@@ -31,18 +31,13 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public record HtmlForm(
-        long id,
         TreeMap<String, List<HtmlFormField>> groups
 ) {
     public HtmlForm() {
-        this(0, new TreeMap<>());
+        this(new TreeMap<>());
     }
 
     public static <T> HtmlForm of(T t) {
-        return of(0, t);
-    }
-
-    public static <T> HtmlForm of(long id, T t) {
         if (Objects.isNull(t) || !t.getClass().isAnnotationPresent(Form.class)) {
             return new HtmlForm();
         }
@@ -110,7 +105,7 @@ public record HtmlForm(
 
         formColumns.sort(Comparator.comparingInt(HtmlFormField::order));
 
-        return new HtmlForm(id, formColumns.stream().collect(Collectors.groupingBy(HtmlFormField::group, TreeMap::new, Collectors.toList())));
+        return new HtmlForm(formColumns.stream().collect(Collectors.groupingBy(HtmlFormField::group, TreeMap::new, Collectors.toList())));
     }
 
     private static FormType getFormType(Field f) {

@@ -3,7 +3,7 @@
      th:classappend="${copied} ? 'copied' : 'original'"
      draggable="true"
      th:each="widget: ${widgetHtmlForms}"
-     th:with="formId='widget-' + ${widget.id} + '-' + ${widget.htmlForm.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
+     th:with="formId='widget-' + ${widget.id} + '-' + ${widget.widgetInstance.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
      th:id="${formId}">
   <div class="card-header d-flex justify-content-between py-2">
     <span th:text="${widget.name}">Widget Name</span>
