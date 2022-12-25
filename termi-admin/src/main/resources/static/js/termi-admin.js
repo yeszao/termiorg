@@ -18,6 +18,7 @@ const htmlEditorSelectors = ".html-editor";
 const widgetSourceFormSelectors = ".source-form";
 const widgetTargetFormClass = "target-form";
 const widgetTargetFormSelectors = "." + widgetTargetFormClass;
+const removeButtonSelectors = ".remove-btn-confirm";
 
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
@@ -210,6 +211,41 @@ const setupWidgetTargetForm = function () {
     }
 }
 
+const setupRemoveButton = function (callback) {
+    const elements = document.querySelectorAll(removeButtonSelectors);
+    for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        let dragItem = el.closest(dragSelectors);
+        el.addEventListener("click", function (ev) {
+            console.log("confirm delete!!")
+            let form = dragItem.querySelector(widgetTargetFormSelectors);
+            let deleteUrl = form.getAttribute("data-delete-url");
+            let instanceId = form["id"].value;
+
+            console.log(form)
+            console.log(deleteUrl)
+            console.log(instanceId)
+
+            callback(deleteUrl + "?id=" + instanceId);
+            dragItem.remove();
+        });
+    }
+}
+
+const removeInstance = function (url) {
+
+    console.log(url);
+
+    deleteData(url)
+        .then((response) => {
+            !response.ok && showError(response.json().message)
+        })
+        .then((json) => {
+            showSuccess("Deleted");
+        })
+        .catch(error => showError(error));
+}
+
 const showSuccess = function (message) {
     Swal.fire({
         position: 'top-end',
@@ -252,4 +288,8 @@ const postData = async function (url, data) {
         headers: {"Content-Type": "application/json"},
         body: data
     });
+};
+
+const deleteData = async function (url) {
+    return await fetch(url, {method: 'DELETE'});
 };

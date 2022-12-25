@@ -39,7 +39,10 @@
           <div th:replace="fragments/form_field:: formField(${group.value})"></div>
         </form>
 
-        <form class="target-form" action="/admin/widget-instance/add" method="post">
+        <form class="target-form"
+              th:action="${WIDGET_INSTANCE_ADD_URL}"
+              th:data-delete-url="${WIDGET_INSTANCE_DELETE_URL}"
+              method="post">
           <input type="hidden" name="id" th:value="${widget.widgetInstance.id}">
           <input type="hidden" name="layoutId" th:value="${layoutId}">
           <input type="hidden" name="widgetId" th:value="${widget.id}">
@@ -48,7 +51,24 @@
           <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
           <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
 
-          <button class="btn btn-primary btn-sm" type="submit">Save</button>
+          <button class="btn btn-primary btn-sm" type="submit">
+            <i class="bi bi-save me-1"></i> Save
+          </button>
+
+          <div class="dropdown ms-2 d-inline-block">
+            <button class="btn btn-danger btn-sm" type="button" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-trash"></i>
+            </button>
+            <ul class="dropdown-menu mt-2 py-1">
+              <li>
+                <button class="dropdown-item remove-btn-confirm" type="button" role="button">
+                  Confirm
+                </button>
+              </li>
+            </ul>
+          </div>
+
         </form>
       </div>
     </div>

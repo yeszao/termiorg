@@ -2,12 +2,16 @@ package org.termi.admin.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.termi.admin.dto.Response;
 import org.termi.admin.service.WidgetInstanceService;
+import org.termi.common.constant.AdminEndpoints;
 import org.termi.common.entity.Layout;
 import org.termi.common.entity.Widget;
 import org.termi.common.entity.WidgetInstance;
@@ -19,8 +23,9 @@ import javax.validation.Valid;
 import java.util.Map;
 
 import static org.termi.common.constant.AdminEndpoints.WIDGET_INSTANCE_ADD_URL;
+import static org.termi.common.constant.AdminEndpoints.WIDGET_INSTANCE_DELETE_URL;
 
-@Controller("AdminWidgetInstanceController")
+@RestController("AdminWidgetInstanceController")
 @Slf4j
 public class WidgetInstanceController extends BaseController {
     @Autowired
@@ -32,9 +37,14 @@ public class WidgetInstanceController extends BaseController {
     @Autowired
     private LayoutRepository layoutRepository;
 
+    @ModelAttribute
+    public void setPageVariables(Model model) {
+        model.addAllAttributes(AdminEndpoints.WIDGET_INSTANCE);
+        model.addAttribute("PAGE_NAME", "widget-instance");
+    }
+
 
     @PostMapping(WIDGET_INSTANCE_ADD_URL)
-    @ResponseBody
     public Response<Map<String, Long>> save(@Valid @RequestBody WidgetInstance entity) {
         entity.setAddBy(0L);
         entity.setEditBy(0L);
@@ -54,4 +64,9 @@ public class WidgetInstanceController extends BaseController {
         return Response.success(Map.of("id", entity.getId()));
     }
 
+    @DeleteMapping(WIDGET_INSTANCE_DELETE_URL)
+    public Response<Map<String, Long>> delete(@RequestParam Long id) {
+        service.delete(id);
+        return Response.success(Map.of("id", id));
+    }
 }

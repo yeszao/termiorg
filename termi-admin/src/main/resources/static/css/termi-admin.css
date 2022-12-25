@@ -18,6 +18,10 @@ i[data-bs-toggle="collapse"][aria-expanded="false"],
     color: var(--bs-secondary);
 }
 
+.copied .remove-btn {
+    display: inline-block!important;
+}
+
 /* Upload dropzone */
 .dropzone {
     min-height: 140px;

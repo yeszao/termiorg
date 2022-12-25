@@ -9,12 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.termi.admin.dto.LayoutDto;
 import org.termi.admin.query.SearchQuery;
 import org.termi.admin.service.LayoutService;
@@ -33,14 +30,14 @@ import org.termi.common.util.JsonUtil;
 import org.termi.common.widget.WidgetPosition;
 import org.termi.common.widget.WidgetRender;
 
-import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.termi.common.constant.AdminEndpoints.*;
+import static org.termi.common.constant.AdminEndpoints.LAYOUT_BASE_URL;
+import static org.termi.common.constant.AdminEndpoints.LAYOUT_EDIT_URL;
 
 @Controller("AdminLayoutController")
 @Slf4j
@@ -137,43 +134,5 @@ public class LayoutController extends BaseController {
         model.addAttribute("layoutId", id);
         model.addAttribute("title", "Edit Layout " + layout.getEndpoint());
         return "layout";
-    }
-
-    @PostMapping(LAYOUT_ADD_URL)
-    public String saveAdding(@Valid @ModelAttribute("entity") Layout entity,
-                             BindingResult bindingResult,
-                             Model model,
-                             RedirectAttributes attributes) {
-        if (bindingResult.hasErrors()) {
-            return setFormModel("Add Layout", entity, model);
-        }
-
-        entity.setAddBy(0L);
-        entity.setEditBy(0L);
-        service.insert(entity);
-
-        return success(LAYOUT_EDIT_URL, Map.of("id", entity.getId()), "Added", attributes);
-    }
-
-    @PostMapping(LAYOUT_EDIT_URL)
-    public String saveEditing(@Valid @ModelAttribute("entity") Layout entity,
-                              BindingResult bindingResult,
-                              Model model,
-                              RedirectAttributes attributes) {
-        if (bindingResult.hasErrors()) {
-            return setFormModel("Edit Layout", entity, model);
-        }
-
-        entity.setEditBy(10L);
-        Layout oldEntity = service.findById(entity.getId()).orElseThrow(NotFoundException::new);
-        service.update(oldEntity, entity);
-
-        return success(LAYOUT_EDIT_URL, Map.of("id", entity.getId()), "Saved", attributes);
-    }
-
-    @GetMapping(LAYOUT_DELETE_URL)
-    public String delete(@RequestParam Long id, RedirectAttributes attributes) {
-        service.delete(id);
-        return success(LAYOUT_BASE_URL, Map.of(), "Deleted", attributes);
     }
 }

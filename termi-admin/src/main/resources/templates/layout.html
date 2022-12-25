@@ -71,12 +71,14 @@
     setupHtmlEditor(document);
     setupWidgetSourceForm();
     setupWidgetTargetForm();
+    setupRemoveButton((url) => removeInstance(url));
 
     setupDropArea((ev) => {
         let result = drop(ev);
         setupDragElements();
         setupWidgetSourceForm();
         setupWidgetTargetForm();
+        setupRemoveButton((url) => removeInstance(url));
 
         result.action === "copy" && setupHtmlEditor(result.el);
 

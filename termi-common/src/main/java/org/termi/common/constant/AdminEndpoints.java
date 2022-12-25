@@ -74,6 +74,7 @@ public class AdminEndpoints {
     public static final String LAYOUT_DELETE_URL = "/admin/layouts/delete";
 
     public static final String WIDGET_INSTANCE_ADD_URL = "/admin/widget-instance/add";
+    public static final String WIDGET_INSTANCE_DELETE_URL = "/admin/widget-instance/delete";
 
     // Icon
     public static final String ICON_ALL_API = "/admin/api/icons";
@@ -89,4 +90,5 @@ public class AdminEndpoints {
     public static final Map<String, String> MENU = ClassUtil.toMap(AdminEndpoints.class, "MENU_");
     public static final Map<String, String> LAYOUT = ClassUtil.toMap(AdminEndpoints.class, "LAYOUT_");
     public static final Map<String, String> ICON = ClassUtil.toMap(AdminEndpoints.class, "ICON_");
+    public static final Map<String, String> WIDGET_INSTANCE = ClassUtil.toMap(AdminEndpoints.class, "WIDGET_INSTANCE_");
 }
