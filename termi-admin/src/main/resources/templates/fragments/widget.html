@@ -2,7 +2,7 @@
      class="card drag-item my-2"
      draggable="true"
      th:each="form: ${widgetHtmlForms}"
-     th:classappend="|${copied ? 'copied' : ''} ${form.allowSaving ? '' : 'disallow-saving'}|"
+     th:classappend="${copied} ? 'copied'"
      th:with="formId='widget-' + ${form.widget.id} + '-' + ${form.widgetInstance.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
      th:id="${formId}">
   <div class="card-header d-flex justify-content-between py-2">
@@ -54,13 +54,13 @@
         <input type="hidden" name="sort" th:value="${form.widgetInstance.sort}">
         <input type="hidden" name="configuration" th:value="${form.widgetInstance.configuration}">
 
-        <button class="btn btn-primary btn-sm target-form-btn" type="submit">
+        <button class="btn btn-primary btn-sm" type="submit" th:disabled="${!form.allowSaving}">
           <i class="bi bi-save me-1"></i> Save
         </button>
 
-        <div class="dropdown ms-2 target-form-btn">
+        <div class="dropdown ms-2 d-inline-block">
           <button class="btn btn-danger btn-sm" type="button" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">
+                  data-bs-toggle="dropdown" aria-expanded="false" th:disabled="${!form.allowSaving}">
             <i class="bi bi-trash"></i>
           </button>
           <ul class="dropdown-menu mt-2 py-1">

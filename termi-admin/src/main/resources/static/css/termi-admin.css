@@ -18,19 +18,6 @@ i[data-bs-toggle="collapse"][aria-expanded="false"],
     color: var(--bs-secondary);
 }
 
-.target-form-btn {
-    display: inline-block;
-}
-
-.disallow-saving form.target-form {
-    pointer-events:none;
-}
-
-.disallow-saving form.target-form .target-form-btn {
-    display: none!important;
-}
-
-
 /* Upload dropzone */
 .dropzone {
     min-height: 140px;
@@ -57,7 +44,7 @@ i[data-bs-toggle="collapse"][aria-expanded="false"],
     min-height: 30px;
 }
 
-[draggable="true"] {
+div[draggable="true"] .card-header {
     cursor: move;
 }
 
