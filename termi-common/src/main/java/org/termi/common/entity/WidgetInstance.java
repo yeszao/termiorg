@@ -34,4 +34,12 @@ public class WidgetInstance extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private WidgetPosition position;
+
+    public long getLayoutId() {
+        return this.layout.getId();
+    }
+
+    public long getWidgetId() {
+        return this.widget.getId();
+    }
 }

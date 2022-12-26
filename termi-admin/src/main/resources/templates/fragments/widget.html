@@ -1,12 +1,15 @@
 <div th:fragment="widget(widgetHtmlForms, position, copied)"
      class="card drag-item my-2"
-     th:classappend="${copied} ? 'copied' : 'original'"
      draggable="true"
-     th:each="widget: ${widgetHtmlForms}"
-     th:with="formId='widget-' + ${widget.id} + '-' + ${widget.widgetInstance.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
+     th:each="form: ${widgetHtmlForms}"
+     th:classappend="|${copied ? 'copied' : ''} ${form.allowSaving ? '' : 'disallow-saving'}|"
+     th:with="formId='widget-' + ${form.widget.id} + '-' + ${form.widgetInstance.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
      th:id="${formId}">
   <div class="card-header d-flex justify-content-between py-2">
-    <span th:text="${widget.name}">Widget Name</span>
+    <div class="d-inline-block">
+      <span th:text="${form.widget.name}">Widget Name</span>
+      <i class="text-muted small" th:if="${form.isGlobal}">(global)</i>
+    </div>
     <ul class="nav nav-pills" role="tablist">
       <li class="nav-item ms-2">
         <i class="bi bi-eye-fill active preview-btn" role="button" data-bs-toggle="pill"
@@ -28,13 +31,13 @@
   <div class="card-body collapse tab-content" th:id="${collapseId}">
 
     <div th:id="${previewId}" class="tab-pane active preview-body">
-      <p class="card-text" th:text="${widget.description}">Widget Description</p>
-      <img th:src="${widget.previewImageUrl}" class="mw-100"/>
+      <p class="card-text" th:text="${form.widget.description}">Widget Description</p>
+      <img th:src="${form.widget.previewImageUrl}" class="mw-100"/>
     </div>
 
     <div th:id="${configId}" class="tab-pane fade config-body">
       <form class="source-form">
-        <div th:each="group: ${widget.htmlForm.groups}">
+        <div th:each="group: ${form.htmlForm.groups}">
           <h2 class="h5 mb-4" th:text="${group.key}" th:if="${group.key} != ''"></h2>
             <div th:replace="fragments/form_field:: formField(${group.value})"></div>
         </div>
@@ -43,19 +46,19 @@
             th:action="${WIDGET_INSTANCE_ADD_URL}"
             th:data-delete-url="${WIDGET_INSTANCE_DELETE_URL}"
             method="post">
-        <input type="hidden" name="id" th:value="${widget.widgetInstance.id}">
+        <input type="hidden" name="id" th:value="${form.widgetInstance.id}">
         <input type="hidden" name="layoutId" th:value="${layoutId}">
-        <input type="hidden" name="widgetId" th:value="${widget.id}">
+        <input type="hidden" name="widgetId" th:value="${form.widget.id}">
 
         <input type="hidden" name="position" th:value="${position}">
-        <input type="hidden" name="sort" th:value="${widget.widgetInstance.sort}">
-        <input type="hidden" name="configuration" th:value="${widget.widgetInstance.configuration}">
+        <input type="hidden" name="sort" th:value="${form.widgetInstance.sort}">
+        <input type="hidden" name="configuration" th:value="${form.widgetInstance.configuration}">
 
-        <button class="btn btn-primary btn-sm form-btn" type="submit">
+        <button class="btn btn-primary btn-sm target-form-btn" type="submit">
           <i class="bi bi-save me-1"></i> Save
         </button>
 
-        <div class="dropdown ms-2 form-btn">
+        <div class="dropdown ms-2 target-form-btn">
           <button class="btn btn-danger btn-sm" type="button" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-trash"></i>

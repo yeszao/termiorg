@@ -22,14 +22,11 @@ public class WidgetInstanceServiceImpl implements WidgetInstanceService {
 
     @Override
     public List<WidgetInstance> getInstances(Collection<String> layoutEndpoints) {
-        List<WidgetInstance> instances = new ArrayList<>();
-        if (!layoutEndpoints.isEmpty()) {
-            List<Layout> layouts = layoutRepository.findAllByEndpointIn(Set.copyOf(layoutEndpoints));
-            layouts.stream()
-                    .filter(x -> !x.getWidgetInstances().isEmpty())
-                    .forEach(x -> instances.addAll(x.getWidgetInstances()));
+        List<Layout> layouts = layoutRepository.findAllByEndpointIn(Set.copyOf(layoutEndpoints));
+        if (layouts.isEmpty()) {
+            return new ArrayList<>();
         }
 
-        return instances;
+        return repository.findAllByLayoutIn(layouts);
     }
 }

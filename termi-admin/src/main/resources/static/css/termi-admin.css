@@ -18,15 +18,18 @@ i[data-bs-toggle="collapse"][aria-expanded="false"],
     color: var(--bs-secondary);
 }
 
-.form-btn {
+.target-form-btn {
     display: inline-block;
 }
-.original form.target-form {
+
+.disallow-saving form.target-form {
     pointer-events:none;
 }
-.original .form-btn {
+
+.disallow-saving form.target-form .target-form-btn {
     display: none!important;
 }
+
 
 /* Upload dropzone */
 .dropzone {

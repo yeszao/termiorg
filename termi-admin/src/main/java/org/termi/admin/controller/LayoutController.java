@@ -18,7 +18,7 @@ import org.termi.admin.service.LayoutService;
 import org.termi.common.constant.AdminEndpoints;
 import org.termi.common.dto.HtmlForm;
 import org.termi.common.dto.PageableTable;
-import org.termi.common.dto.WidgetForm;
+import org.termi.common.dto.WidgetHtmlForm;
 import org.termi.common.entity.Layout;
 import org.termi.common.entity.Widget;
 import org.termi.common.entity.WidgetInstance;
@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.termi.common.constant.AdminEndpoints.LAYOUT_BASE_URL;
 import static org.termi.common.constant.AdminEndpoints.LAYOUT_EDIT_URL;
@@ -42,6 +44,8 @@ import static org.termi.common.constant.AdminEndpoints.LAYOUT_EDIT_URL;
 @Controller("AdminLayoutController")
 @Slf4j
 public class LayoutController extends BaseController {
+    public static final String GLOBAL_LAYOUT_ENDPOINT = "~global~";
+
     private final LayoutService service;
 
     @Autowired
@@ -85,9 +89,14 @@ public class LayoutController extends BaseController {
     public String edit(@RequestParam Long id, Model model) {
         // widget layout instances
         Layout layout = service.findById(id).orElseThrow(NotFoundException::new);
-        List<WidgetInstance> instances = widgetInstanceService
-                .getInstances(List.of(layout.getEndpoint(), "~global~"));
 
+        List<WidgetInstance> instances = widgetInstanceService.getInstances(List.of(GLOBAL_LAYOUT_ENDPOINT));
+        Set<Long> globalLayoutInstanceIds = instances.stream().map(WidgetInstance::getId).collect(Collectors.toSet());
+        if (!GLOBAL_LAYOUT_ENDPOINT.equals(layout.getEndpoint())) {
+            instances.addAll(widgetInstanceService.getInstances(List.of(layout.getEndpoint())));
+        }
+
+        boolean isGlobalLayoutPage = GLOBAL_LAYOUT_ENDPOINT.equals(layout.getEndpoint());
         Map<WidgetPosition, List<Object>> layoutHtmlForms = layoutService.group(
                 instances,
                 ArrayList::new,
@@ -95,12 +104,16 @@ public class LayoutController extends BaseController {
                         -> {
                     Object configObject = JsonUtil.parse(widgetInstance.getConfiguration(), renderer.getConfigurationClass());
                     HtmlForm htmlForm = HtmlForm.of(configObject);
-                    s.add(new WidgetForm(widgetInstance.getWidget(), widgetInstance, htmlForm));
+
+                    boolean isGlobalLayoutWidgetInstance = globalLayoutInstanceIds.contains(widgetInstance.getId());
+                    boolean allowSaving = isGlobalLayoutPage || !isGlobalLayoutWidgetInstance;
+
+                    s.add(new WidgetHtmlForm(widgetInstance.getWidget(), htmlForm, widgetInstance, isGlobalLayoutWidgetInstance, allowSaving));
                 }
         );
 
         List<Widget> widgets = widgetRepository.findAll();
-        List<WidgetForm> widgetForms = new ArrayList<>();
+        List<WidgetHtmlForm> widgetHtmlForms = new ArrayList<>();
         for (Widget widget : widgets) {
             WidgetRender renderer = context.getBean(widget.getRendererClassName(), WidgetRender.class);
             Class<?> configClass = renderer.getConfigurationClass();
@@ -116,7 +129,7 @@ public class LayoutController extends BaseController {
                 initInstance.setSort(49);
                 initInstance.setId(0);
 
-                widgetForms.add(new WidgetForm(widget, initInstance, htmlForm));
+                widgetHtmlForms.add(new WidgetHtmlForm(widget, htmlForm, initInstance, false, false));
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 log.error("Cannot get widget configuration by it's class name. {}", e.toString());
@@ -129,7 +142,7 @@ public class LayoutController extends BaseController {
         model.addAttribute("rightHtmlForms", layoutHtmlForms.get(WidgetPosition.RIGHT));
         model.addAttribute("bottomHtmlForms", layoutHtmlForms.get(WidgetPosition.BOTTOM));
 
-        model.addAttribute("widgetForms", widgetForms);
+        model.addAttribute("widgetHtmlForms", widgetHtmlForms);
 
         model.addAttribute("layoutId", id);
         model.addAttribute("title", "Edit Layout " + layout.getEndpoint());
