@@ -65,7 +65,6 @@ const drop = function (ev) {
     const now = new Date().getTime();
     const copiedNode = draggedEl.cloneNode(true);
     copiedNode.id = "widget-" + now;
-    copiedNode.classList.remove("original");
     copiedNode.classList.add("copied");
 
     // Set copied card body a new id
@@ -148,6 +147,13 @@ const creatHtmlEditor = function (el) {
     editor.on("change", function (cm) {
         el.value = cm.getValue();
     });
+}
+
+const removeButtonDisabled = function (el) {
+    const buttons = el.querySelectorAll("button");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = false;
+    }
 }
 
 const setupHtmlEditor = function (rootEl) {

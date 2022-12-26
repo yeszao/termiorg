@@ -81,6 +81,7 @@
         setupRemoveButton((url) => removeInstance(url));
 
         result.action === "copy" && setupHtmlEditor(result.el);
+        result.action === "copy" && removeButtonDisabled(result.el);
 
         let droppedForm = result.el.querySelector(widgetTargetFormSelectors);
         result.action !== null && saveForm(droppedForm, false);
