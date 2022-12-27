@@ -141,11 +141,26 @@ const creatHtmlEditor = function (el) {
     const editor = CodeMirror.fromTextArea(el, {
         lineNumbers: true,
         lineWrapping: true,
+        indentUnit: 4,
+        matchBrackets: true,
+        theme: 'monokai',
         mode: "htmlmixed",
     });
 
-    editor.on("change", function (cm) {
-        el.value = cm.getValue();
+    editor.setOption("extraKeys", {
+        // Tab to 4 spaces
+        Tab: function(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces);
+        },
+        // F11 to fullscreen
+        F11: function(cm) {
+            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+        },
+        // Esc exit fullscrren
+        Esc: function(cm) {
+            if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        }
     });
 }
 
