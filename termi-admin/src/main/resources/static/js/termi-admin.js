@@ -159,9 +159,10 @@ const creatHtmlEditor = function (el) {
     });
 
     editor.on("changes", function(cm) {
-        //el.value = cm.getValue();
-        cm.save();
-    })
+        el.value = cm.getValue();
+        let form = el.closest('form');
+        form.dispatchEvent(new Event('change'));
+    });
 }
 
 const removeButtonDisabled = function (el) {
