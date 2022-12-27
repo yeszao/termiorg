@@ -16,8 +16,7 @@ const dropSelectors = ".drop-area";
 const dragSelectors = ".drag-item";
 const htmlEditorSelectors = ".html-editor";
 const widgetSourceFormSelectors = ".source-form";
-const widgetTargetFormClass = "target-form";
-const widgetTargetFormSelectors = "." + widgetTargetFormClass;
+const widgetTargetFormSelectors = ".target-form";
 const removeButtonSelectors = ".remove-btn-confirm";
 
 const setupDragElements = function () {
@@ -149,19 +148,20 @@ const creatHtmlEditor = function (el) {
 
     editor.setOption("extraKeys", {
         // Tab to 4 spaces
-        Tab: function(cm) {
+        "Tab": function(cm) {
             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
             cm.replaceSelection(spaces);
         },
-        // F11 to fullscreen
-        F11: function(cm) {
+        // Esc to toggle fullscreen
+        "Esc": function(cm) {
             cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-        },
-        // Esc exit fullscrren
-        Esc: function(cm) {
-            if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
         }
     });
+
+    editor.on("changes", function(cm) {
+        //el.value = cm.getValue();
+        cm.save();
+    })
 }
 
 const removeButtonDisabled = function (el) {
@@ -212,12 +212,9 @@ const setupWidgetSourceForm = function () {
         let form = forms[i];
         form.addEventListener('change', function (ev) {
             const _form = this;
-            const targetForm = _form.nextElementSibling;
-
-            if (targetForm.classList.contains(widgetTargetFormClass)) {
-                const data = new FormData(_form);
-                targetForm['configuration'].value = convertFormDataToJson(data);
-            }
+            const targetForm = _form.closest(dragSelectors).querySelector(widgetTargetFormSelectors);
+            const data = new FormData(_form);
+            targetForm['configuration'].value = convertFormDataToJson(data);
         });
     }
 }
