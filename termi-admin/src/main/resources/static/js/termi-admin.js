@@ -142,6 +142,9 @@ const creatHtmlEditor = function (el) {
         lineWrapping: true,
         indentUnit: 4,
         matchBrackets: true,
+        // `autoRefresh` is to solve line number misaligned
+        // https://github.com/codemirror/codemirror5/issues/3098#issuecomment-147022207
+        autoRefresh: true,
         theme: 'monokai',
         mode: "htmlmixed",
     });
