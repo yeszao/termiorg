@@ -22,8 +22,7 @@ import org.termi.common.repository.WidgetRepository;
 import javax.validation.Valid;
 import java.util.Map;
 
-import static org.termi.common.constant.AdminEndpoints.WIDGET_INSTANCE_ADD_URL;
-import static org.termi.common.constant.AdminEndpoints.WIDGET_INSTANCE_DELETE_URL;
+import static org.termi.common.constant.AdminEndpoints.*;
 
 @RestController("AdminWidgetInstanceController")
 @Slf4j
@@ -55,13 +54,23 @@ public class WidgetInstanceController extends BaseController {
         entity.setLayout(layout);
 
         if (entity.getId() == 0) {
-            service.insert(entity);
+            service.save(entity);
         } else {
             WidgetInstance oldEntity = service.findById(entity.getId()).orElseThrow(NotFoundException::new);
             service.update(oldEntity, entity);
         }
 
         return Response.success(Map.of("id", entity.getId()));
+    }
+
+    @PostMapping(WIDGET_INSTANCE_SORT_URL)
+    public Response<Map<String, Long>> sort(@RequestParam Long id, @RequestParam Integer sort) {
+        WidgetInstance instance = service.findById(id).orElseThrow(NotFoundException::new);
+        instance.setEditBy(0);
+        instance.setSort(sort);
+
+        service.save(instance);
+        return Response.success(Map.of("id", id));
     }
 
     @DeleteMapping(WIDGET_INSTANCE_DELETE_URL)

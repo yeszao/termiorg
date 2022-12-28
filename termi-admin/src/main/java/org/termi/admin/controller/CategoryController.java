@@ -72,7 +72,7 @@ public class CategoryController extends BaseController {
 
         entity.setAddBy(0L);
         entity.setEditBy(0L);
-        service.insert(entity);
+        service.save(entity);
 
         return success(CATEGORY_EDIT_URL, Map.of("id", entity.getId()), "Added", attributes);
     }

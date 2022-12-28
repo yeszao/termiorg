@@ -80,12 +80,14 @@
     setupWidgetSourceForm();
     setupWidgetTargetForm();
     setupRemoveButton((url) => removeInstance(url));
+    setupSortInputs();
 
     setupDropArea((ev) => {
         let result = drop(ev);
         setupDragElements();
         setupWidgetSourceForm();
         setupWidgetTargetForm();
+        setupSortInputs();
         setupRemoveButton((url) => removeInstance(url));
 
         result.action === "copy" && setupHtmlEditor(result.el);

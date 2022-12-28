@@ -75,6 +75,7 @@ public class AdminEndpoints {
 
     public static final String WIDGET_INSTANCE_ADD_URL = "/admin/widget-instance/add";
     public static final String WIDGET_INSTANCE_DELETE_URL = "/admin/widget-instance/delete";
+    public static final String WIDGET_INSTANCE_SORT_URL = "/admin/widget-instance/sort";
 
     // Icon
     public static final String ICON_ALL_API = "/admin/api/icons";

@@ -91,7 +91,7 @@ public class ProductController extends BaseController {
 
         entity.setAddBy(0L);
         entity.setEditBy(0L);
-        service.insert(entity);
+        service.save(entity);
 
         return success(PRODUCT_EDIT_URL, Map.of("id", entity.getId()), "Added", attributes);
     }

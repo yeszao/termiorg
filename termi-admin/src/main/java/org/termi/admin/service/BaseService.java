@@ -24,14 +24,14 @@ public interface BaseService<T, ID> {
     }
 
     @Transactional
-    default T insert(T entity) {
+    default T save(T entity) {
         return getRepository().save(entity);
     }
 
     @Transactional
     default T update(T oldEntity, T entity) {
         BeanUtils.copyProperties(entity, oldEntity, BeanUtil.getNullPropertyNames(entity));
-        return getRepository().save(oldEntity);
+        return save(oldEntity);
     }
 
     @Transactional

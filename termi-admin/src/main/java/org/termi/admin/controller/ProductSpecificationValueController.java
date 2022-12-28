@@ -93,7 +93,7 @@ public class ProductSpecificationValueController extends BaseController {
 
         entity.setAddBy(0L);
         entity.setEditBy(0L);
-        service.insert(entity);
+        service.save(entity);
 
         return success(PRODUCT_SPECIFICATION_VALUE_EDIT_URL, Map.of("id", entity.getId()), "Added", attributes);
     }

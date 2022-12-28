@@ -18,6 +18,7 @@ const htmlEditorSelectors = ".html-editor";
 const widgetSourceFormSelectors = ".source-form";
 const widgetTargetFormSelectors = ".target-form";
 const removeButtonSelectors = ".remove-btn-confirm";
+const sortInputSelectors = ".sort-input";
 
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
@@ -36,7 +37,7 @@ const setupDragElements = function () {
 }
 
 const updateWidgetInstancePosition = function (parentEl, position) {
-    const positionEl = parentEl.querySelector("input[name=position]");
+    const positionEl = parentEl.querySelector('input[name=position]');
     if (positionEl) {
         positionEl.value = position;
     }
@@ -169,10 +170,12 @@ const creatHtmlEditor = function (el) {
 }
 
 const removeButtonDisabled = function (el) {
-    const buttons = el.querySelectorAll("button");
+    const buttons = el.querySelectorAll('button');
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].disabled = false;
     }
+
+    el.querySelector(sortInputSelectors).disabled = false;
 }
 
 const setupHtmlEditor = function (rootEl) {
@@ -308,3 +311,44 @@ const postData = async function (url, data) {
 const deleteData = async function (url) {
     return await fetch(url, {method: 'DELETE'});
 };
+
+const setupSortInputs = function () {
+    const sortInputs = document.querySelectorAll(sortInputSelectors);
+    for (let i = 0; i < sortInputs.length; i++) {
+        let inputEl = sortInputs[i];
+        inputEl.addEventListener("change", function () {
+            let dragItem = inputEl.closest(dragSelectors);
+            let id = dragItem.querySelector('input[name=id]').value;
+            let sortUrl = dragItem.querySelector(widgetTargetFormSelectors).getAttribute("data-sort-url");
+
+            // save to backend
+            const params = new URLSearchParams({id: id, sort: inputEl.value});
+            postData(sortUrl + "?" + params.toString())
+
+            // sort frontend elements
+            let dropArea = inputEl.closest(dropSelectors);
+            sortChildrenElements(dropArea, sortInputSelectors);
+        });
+    }
+}
+
+const sortChildrenElements = function (el, inputSelector) {
+    let nodes = el.childNodes;
+    let elements = [];
+    for (let i in nodes) {
+        if (nodes[i].nodeType === Node.ELEMENT_NODE) {
+            elements.push(nodes[i]);
+        }
+    }
+
+    elements.sort(function (a, b) {
+        let aSort = parseInt(a.querySelector(inputSelector).value);
+        let bSort = parseInt(b.querySelector(inputSelector).value);
+
+        return aSort === bSort ? 0 : (aSort > bSort ? 1 : -1);
+    });
+
+    for (let j = 0; j < elements.length; ++j) {
+        el.appendChild(elements[j]);
+    }
+}
