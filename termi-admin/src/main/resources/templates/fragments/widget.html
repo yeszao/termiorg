@@ -7,7 +7,11 @@
      th:id="${formId}">
   <div class="card-header d-flex justify-content-between py-2">
     <div class="d-inline-block">
-      <span th:text="${form.widget.name}">Widget Name</span>
+      <input type="text"
+             th:value="${form.widget.name}"
+             th:disabled="${!form.allowSaving}"
+             readonly="readonly"
+             class="form-control-plaintext w-auto widget-instance-name">
       <i class="text-muted small" th:if="${form.isGlobal}">(global)</i>
     </div>
     <ul class="nav nav-pills" role="tablist">

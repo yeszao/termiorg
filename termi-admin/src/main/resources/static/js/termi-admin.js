@@ -19,6 +19,7 @@ const widgetSourceFormSelectors = ".source-form";
 const widgetTargetFormSelectors = ".target-form";
 const removeButtonSelectors = ".remove-btn-confirm";
 const sortInputSelectors = ".sort-input";
+const instanceNameSelectors = ".widget-instance-name";
 
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
@@ -169,13 +170,14 @@ const creatHtmlEditor = function (el) {
     });
 }
 
-const removeButtonDisabled = function (el) {
+const removeDisabled = function (el) {
     const buttons = el.querySelectorAll('button');
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].disabled = false;
     }
 
     el.querySelector(sortInputSelectors).disabled = false;
+    el.querySelector(instanceNameSelectors).disabled = false;
 }
 
 const setupHtmlEditor = function (rootEl) {
@@ -350,5 +352,23 @@ const sortChildrenElements = function (el, inputSelector) {
 
     for (let j = 0; j < elements.length; ++j) {
         el.appendChild(elements[j]);
+    }
+}
+
+const setupWidgetInstanceNames = function () {
+    const elements = document.querySelectorAll(instanceNameSelectors);
+    for (let i = 0; i < elements.length; i++) {
+        let el = elements[i];
+        el.addEventListener("dblclick", function () {
+            this.readOnly=false;
+            this.classList.remove('form-control-plaintext');
+            this.classList.add('form-control')
+        });
+
+        el.addEventListener("blur", function () {
+            this.readOnly=true;
+            this.classList.add('form-control-plaintext');
+            this.classList.remove('form-control')
+        })
     }
 }

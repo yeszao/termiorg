@@ -81,6 +81,7 @@
     setupWidgetTargetForm();
     setupRemoveButton((url) => removeInstance(url));
     setupSortInputs();
+    setupWidgetInstanceNames();
 
     setupDropArea((ev) => {
         let result = drop(ev);
@@ -88,10 +89,11 @@
         setupWidgetSourceForm();
         setupWidgetTargetForm();
         setupSortInputs();
+        setupWidgetInstanceNames();
         setupRemoveButton((url) => removeInstance(url));
 
         result.action === "copy" && setupHtmlEditor(result.el);
-        result.action === "copy" && removeButtonDisabled(result.el);
+        result.action === "copy" && removeDisabled(result.el);
 
         let droppedForm = result.el.querySelector(widgetTargetFormSelectors);
         result.action !== null && saveForm(droppedForm, false);
