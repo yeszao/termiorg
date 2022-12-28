@@ -62,3 +62,9 @@ input[readonly]:focus-visible {
 .w-3rem{width: 3rem;}
 .w-4rem{width: 4rem;}
 .w-5rem{width: 5rem;}
+
+.mw-1rem{min-width: 1rem;}
+.mw-2rem{min-width: 2rem;}
+.mw-3rem{min-width: 3rem;}
+.mw-4rem{min-width: 4rem;}
+.mw-5rem{min-width: 5rem;}
