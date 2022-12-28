@@ -9,22 +9,24 @@
     <div class="d-inline-block">
       <span th:text="${form.widget.name}">Widget Name</span>
       <i class="text-muted small" th:if="${form.isGlobal}">(global)</i>
-      <input type="number" step="1" class="form-control w-auto form-control-sm d-inline-block sort-input" th:value="${form.widgetInstance.sort}" th:disabled="${!form.allowSaving}" />
     </div>
     <ul class="nav nav-pills" role="tablist">
-      <li class="nav-item ms-2">
+      <li class="nav-item mb-0">
+        <input type="number" step="1" class="form-control form-control-sm w-4rem sort-input m-0" th:value="${form.widgetInstance.sort}" th:disabled="${!form.allowSaving}" />
+      </li>
+      <li class="nav-item mb-0 ms-2">
         <i class="bi bi-eye-fill preview-btn" th:classappend="${!copied} ? 'active'"
            role="button" data-bs-toggle="pill"
            th:data-bs-target="'#' + ${previewId}"
            th:aria-controls="${previewId}"></i>
       </li>
-      <li class="nav-item ms-2">
+      <li class="nav-item mb-0 ms-2">
         <i class="bi bi-gear-fill config-btn" th:classappend="${copied} ? 'active'"
            role="button" data-bs-toggle="pill"
            th:data-bs-target="'#' + ${configId}"
            th:aria-controls="${configId}"></i>
       </li>
-      <li class="nav-item ms-2">
+      <li class="nav-item mb-0 ms-2">
         <i class="bi bi-chevron-right collapse-btn" role="button" data-bs-toggle="collapse" aria-expanded="false"
            th:data-bs-target="'#' + ${collapseId}"
            th:aria-controls="${collapseId}"></i>

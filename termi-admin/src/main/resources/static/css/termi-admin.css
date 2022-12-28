@@ -51,3 +51,10 @@ div[draggable="true"] .card-header {
 .choices__list {
     z-index: 99;
 }
+
+/* width by rem */
+.w-1rem{width: 1rem;}
+.w-2rem{width: 2rem;}
+.w-3rem{width: 3rem;}
+.w-4rem{width: 4rem;}
+.w-5rem{width: 5rem;}
