@@ -358,17 +358,28 @@ const sortChildrenElements = function (el, inputSelector) {
 const setupWidgetInstanceNames = function () {
     const elements = document.querySelectorAll(instanceNameSelectors);
     for (let i = 0; i < elements.length; i++) {
-        let el = elements[i];
-        el.addEventListener("dblclick", function () {
+        let inputEl = elements[i];
+        inputEl.addEventListener("dblclick", function () {
             this.readOnly=false;
             this.classList.remove('form-control-plaintext');
             this.classList.add('form-control')
         });
 
-        el.addEventListener("blur", function () {
+        inputEl.addEventListener("blur", function () {
             this.readOnly=true;
             this.classList.add('form-control-plaintext');
             this.classList.remove('form-control')
         })
+
+        inputEl.addEventListener("change", function () {
+            let dragItem = inputEl.closest(dragSelectors);
+            let id = dragItem.querySelector('input[name=id]').value;
+            let sortUrl = dragItem.querySelector(widgetTargetFormSelectors).getAttribute("data-name-url");
+
+            // save to backend
+            const params = new URLSearchParams({id: id, name: inputEl.value});
+            postData(sortUrl + "?" + params.toString());
+        });
+
     }
 }

@@ -9,7 +9,7 @@
     <div class="d-flex align-items-center">
       <input type="number" step="1" class="form-control form-control-sm w-4rem sort-input m-0 me-2" th:value="${form.widgetInstance.sort}" th:disabled="${!form.allowSaving}" />
       <input type="text"
-             th:value="${form.widget.name}"
+             th:value="${#strings.isEmpty(form.widgetInstance.name)} ? ${form.widget.name} : ${form.widgetInstance.name}"
              th:disabled="${!form.allowSaving}"
              readonly="readonly"
              class="form-control-plaintext w-auto widget-instance-name m-0">
@@ -56,6 +56,7 @@
             th:action="${WIDGET_INSTANCE_ADD_URL}"
             th:data-delete-url="${WIDGET_INSTANCE_DELETE_URL}"
             th:data-sort-url="${WIDGET_INSTANCE_SORT_URL}"
+            th:data-name-url="${WIDGET_INSTANCE_NAME_URL}"
             method="post">
         <input type="hidden" name="id" th:value="${form.widgetInstance.id}">
         <input type="hidden" name="layoutId" th:value="${layoutId}">

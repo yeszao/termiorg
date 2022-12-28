@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class WidgetInstance extends BaseEntity {
+    private String name;
+
     @ManyToOne
     private Layout layout;
 
