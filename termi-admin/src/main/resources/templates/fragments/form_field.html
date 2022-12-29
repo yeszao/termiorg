@@ -14,7 +14,8 @@
                type="checkbox"
                th:disabled="${column.disabled}"
                th:required="${column.required}"
-               th:value="${column.value}"
+               th:checked="${column.value} == true"
+               th:value="true"
                th:name="${column.columnName}"/>
 
         <input th:case="${T(org.termi.common.enumeration.FormType).HIDDEN}"

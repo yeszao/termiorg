@@ -6,21 +6,21 @@
         }'>
   <div class="bg-no-repeat bg-cover bg-center"
        th:if="${config.enabled1}"
-       th:style="'background-image: url(' + ${config.bgImage1} + '); background-color:' + ${config.bgColor1} + ';'">
+       th:style="'background-image: url(' + ${uploadBaseUrl + config.bgImage1} + '); background-color:' + ${config.bgColor1} + ';'">
     <div class="container" th:utext="${config.html1}">
     </div>
   </div>
 
   <div class="bg-no-repeat bg-cover bg-center"
        th:if="${config.enabled2}"
-       th:style="'background-image: url(' + ${config.bgImage2} + '); background-color:' + ${config.bgColor2} + ';'">
+       th:style="'background-image: url(' + ${uploadBaseUrl + config.bgImage2} + '); background-color:' + ${config.bgColor2} + ';'">
     <div class="container" th:utext="${config.html2}">
     </div>
   </div>
 
   <div class="bg-no-repeat bg-cover bg-center"
        th:if="${config.enabled3}"
-       th:style="'background-image: url(' + ${config.bgImage3} + '); background-color:' + ${config.bgColor3} + ';'">
+       th:style="'background-image: url(' + ${uploadBaseUrl + config.bgImage3} + '); background-color:' + ${config.bgColor3} + ';'">
     <div class="container" th:utext="${config.html3}">
     </div>
   </div>

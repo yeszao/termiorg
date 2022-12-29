@@ -32,8 +32,8 @@ public record SliderWidgetConfiguration(
         String html3
 ) {
     public SliderWidgetConfiguration() {
-        this(false, "", "", "",
-                false, "", "", "",
-                false, "", "", "");
+        this(true, "", "", "",
+                true, "", "", "",
+                true, "", "", "");
     }
 }
