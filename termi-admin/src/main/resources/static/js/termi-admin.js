@@ -393,6 +393,10 @@ const setupImageDropzone = function () {
     const dropzoneEls = document.querySelectorAll(".dropzone");
     for (let i = 0; i < dropzoneEls.length; i++) {
         let dropzoneEl = dropzoneEls[i];
+        if (dropzoneEl.dropzone) {
+            continue;
+        }
+
         let maxFilesize = parseInt(dropzoneEl.getAttribute("max-filesize"));
         let maxFiles = parseInt(dropzoneEl.getAttribute("max-files"));
         new Dropzone(dropzoneEl, {
