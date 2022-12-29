@@ -1,6 +1,6 @@
 <div th:fragment="widget(widgetHtmlForms, position, copied)"
      class="card drag-item my-2"
-     draggable="true"
+     th:draggable="${!copied || form.allowSaving}"
      th:each="form: ${widgetHtmlForms}"
      th:classappend="${copied} ? 'copied'"
      th:with="formId='widget-' + ${form.widget.id} + '-' + ${form.widgetInstance.id}, previewId='preview-' + ${formId}, configId='config-' + ${formId}, collapseId='collapse-' + ${formId}"
