@@ -1,13 +1,21 @@
 package org.termi.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class ObjectUtil {
     /**
      * Get all fields of one object
@@ -25,5 +33,25 @@ public class ObjectUtil {
         result.addAll(filteredFields);
 
         return result;
+    }
+
+    public static Map<String, Object> annotationToMap(Field field, Class<? extends Annotation> clazz) {
+        Annotation a = field.getAnnotation(clazz);
+        Method[] fields = clazz.getDeclaredMethods();
+        Map<String, Object> map = new HashMap<>();
+        for (Method m : fields) {
+            try {
+                map.put(m.getName(), m.invoke(a));
+            } catch (IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException
+                    | NullPointerException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
+
+        return map;
     }
 }

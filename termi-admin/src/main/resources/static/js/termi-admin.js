@@ -122,13 +122,13 @@ const isBefore = function (el1, el2) {
     return false;
 }
 
-const createHiddenInput = function (name, value) {
+const createHiddenInput = function (parentEl, name, value) {
     const inputEl = document.createElement("input");
     inputEl.id = value;
     inputEl.name = name;
     inputEl.type = "hidden";
     inputEl.value = value;
-    mainForm.appendChild(inputEl);
+    parentEl.appendChild(inputEl);
 }
 
 const removeHiddenInput = function (fileId) {
@@ -153,21 +153,25 @@ const creatHtmlEditor = function (el) {
 
     editor.setOption("extraKeys", {
         // Tab to 4 spaces
-        "Tab": function(cm) {
+        "Tab": function (cm) {
             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
             cm.replaceSelection(spaces);
         },
         // Esc to toggle fullscreen
-        "Esc": function(cm) {
+        "Esc": function (cm) {
             cm.setOption("fullScreen", !cm.getOption("fullScreen"));
         }
     });
 
-    editor.on("changes", function(cm) {
+    editor.on("changes", function (cm) {
         el.value = cm.getValue();
         let form = el.closest('form');
-        form.dispatchEvent(new Event('change'));
+        triggerFormChangeEvent(form);
     });
+}
+
+const triggerFormChangeEvent = function (formEl) {
+    formEl.dispatchEvent(new Event('change'));
 }
 
 const removeDisabled = function (el) {
@@ -360,13 +364,13 @@ const setupWidgetInstanceNames = function () {
     for (let i = 0; i < elements.length; i++) {
         let inputEl = elements[i];
         inputEl.addEventListener("dblclick", function () {
-            this.readOnly=false;
+            this.readOnly = false;
             this.classList.remove('form-control-plaintext');
             this.classList.add('form-control')
         });
 
         inputEl.addEventListener("blur", function () {
-            this.readOnly=true;
+            this.readOnly = true;
             this.classList.add('form-control-plaintext');
             this.classList.remove('form-control')
         })
@@ -381,5 +385,71 @@ const setupWidgetInstanceNames = function () {
             postData(sortUrl + "?" + params.toString());
         });
 
+    }
+}
+
+
+const setupImageDropzone = function () {
+    const dropzoneEls = document.querySelectorAll(".dropzone");
+    for (let i = 0; i < dropzoneEls.length; i++) {
+        let dropzoneEl = dropzoneEls[i];
+        let maxFilesize = parseInt(dropzoneEl.getAttribute("max-filesize"));
+        let maxFiles = parseInt(dropzoneEl.getAttribute("max-files"));
+        new Dropzone(dropzoneEl, {
+            url: "/admin/api/upload",
+            dictCancelUpload: "Cancel",
+            dictRemoveFile: "Remove",
+            addRemoveLinks: true,
+            maxFilesize: maxFilesize >= 0 ? maxFilesize : null,
+            acceptedFiles: dropzoneEl.getAttribute("accepted-files"),
+            maxFiles: parseInt(dropzoneEl.getAttribute("max-files")),
+            success: function (file, response) {
+                let name = this.element.getAttribute("data-name");
+                let formEl = this.element.closest('form');
+                let parentEl = this.element.closest('.image-dropzone');
+                createHiddenInput(parentEl, name, response.uri);
+                triggerFormChangeEvent(formEl);
+
+                file.id = response.uri;
+                file.previewElement.classList.add("dz-success");
+            },
+            removedfile: function (file) {
+                let formEl = this.element.closest('form');
+                removeHiddenInput(file.id);
+                triggerFormChangeEvent(formEl);
+                file.previewElement.remove();
+            },
+            maxfilesexceeded: function (file) {
+                this.removeFile(file);
+                showError("File Limit exceeded!");
+            },
+            init: function () {
+                loadExistedPictures(this);
+            }
+        });
+    }
+}
+
+const loadExistedPictures = function (dropzoneObject) {
+    const imageDropzone = dropzoneObject.element.closest(".image-dropzone");
+    const hiddenInputs = imageDropzone.querySelectorAll('input[type=hidden]');
+
+    for (let j = 0; j < hiddenInputs.length; j++) {
+        let inputEl = hiddenInputs[j];
+        const uri = inputEl.value;
+        let imageUrl = uploadBaseUrl + uri;
+        let mockFile = {
+            id: uri,
+            name: uri,
+            status: Dropzone.ADDED,
+        };
+
+        let callback = null; // Optional callback when it's done
+        let crossOrigin = "Anonymous"; // Added to the `img` tag for crossOrigin handling
+        let resizeThumbnail = true; // Tells Dropzone whether it should resize the image first
+
+        dropzoneObject.displayExistingFile(mockFile, imageUrl, callback, crossOrigin, resizeThumbnail);
+        dropzoneObject.files.push(mockFile);
+        console.log(dropzoneObject);
     }
 }

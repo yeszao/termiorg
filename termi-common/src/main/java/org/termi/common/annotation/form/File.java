@@ -11,4 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Documented
 public @interface File {
+    long maxFilesize() default -1L;
+    String[] acceptedFiles() default {".zip", ".pdf"};
+    int maxFiles() default 1;
 }

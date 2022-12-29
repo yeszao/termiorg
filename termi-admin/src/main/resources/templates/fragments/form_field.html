@@ -91,22 +91,22 @@
           </button>
         </div>
 
-        <div th:case="${T(org.termi.common.enumeration.FormType).IMAGES}"
-             th:data-name="${column.columnName}"
-             class="dropzone rounded">
-          <div class="dz-default dz-message">
-            <p>Drop files here to upload</p>
-            <p class="text-muted small">(Max file size is 20MB and max number of files is 5)</p>
+        <div th:case="${T(org.termi.common.enumeration.FormType).IMAGE}" class="image-dropzone">
+          <div th:data-name="${column.columnName}"
+               th:max-filesize="${column.extra.maxFilesize}"
+               th:accepted-files="${#strings.listJoin(column.extra.acceptedFiles, ',')}"
+               th:max-files="${column.extra.maxFiles}"
+               class="dropzone rounded">
+            <div class="dz-default dz-message">
+              <p>Drop files here to upload</p>
+              <p class="text-muted small">(Max file size is <span th:text="${column.extra.maxFilesize} < 0 ? 'unlimited' : ${column.extra.maxFilesize} + 'B'"></span> and max number of files is [[${column.extra.maxFiles}]])</p>
+            </div>
           </div>
           <input type="hidden"
                  th:name="${column.columnName}"
                  th:each="uri: ${#strings.arraySplit(column.value, ',')}"
                  th:id="${uri}"
                  th:value="${uri}">
-        </div>
-
-        <div th:case="${T(org.termi.common.enumeration.FormType).IMAGE}">
-          <img th:src="${UPLOAD_BASE_URL} + ${column.value}" class="img-fluid"/>
         </div>
 
       </div>

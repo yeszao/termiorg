@@ -59,11 +59,13 @@
   </div>
 </main>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var uploadBaseUrl = /*[[${UPLOAD_BASE_URL}]]*/ '';
+    /*]]>*/
+</script>
 
-<!--/*/<th:block th:replace="fragments/scripts :: scripts">/*/-->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-<!--/*/</th:block>/*/-->
-
+<script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/dropzone.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/lib/codemirror.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/mode/javascript/javascript.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/mode/xml/xml.min.js"></script>
@@ -74,7 +76,11 @@
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/addon/display/fullscreen.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/addon/display/autorefresh.js "></script>
 
+<!--/*/<th:block th:replace="fragments/scripts :: scripts">/*/-->
+<!--/*/</th:block>/*/-->
+
 <script type="application/javascript">
+    Dropzone.autoDiscover = false;
     setupDragElements();
     setupHtmlEditor(document);
     setupWidgetSourceForm();
@@ -82,6 +88,7 @@
     setupRemoveButton((url) => removeInstance(url));
     setupSortInputs();
     setupWidgetInstanceNames();
+    setupImageDropzone();
 
     setupDropArea((ev) => {
         let result = drop(ev);
@@ -91,6 +98,7 @@
         setupSortInputs();
         setupWidgetInstanceNames();
         setupRemoveButton((url) => removeInstance(url));
+        setupImageDropzone();
 
         result.action === "copy" && setupHtmlEditor(result.el);
         result.action === "copy" && removeDisabled(result.el);

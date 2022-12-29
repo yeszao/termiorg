@@ -1,18 +1,14 @@
 package org.termi.common.dto;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.termi.common.annotation.Form;
 import org.termi.common.annotation.Input;
-import org.termi.common.annotation.form.Color;
 import org.termi.common.annotation.form.Disabled;
-import org.termi.common.annotation.form.Editor;
-import org.termi.common.annotation.form.Hidden;
-import org.termi.common.annotation.form.HtmlEditor;
+import org.termi.common.annotation.form.File;
 import org.termi.common.annotation.form.Image;
-import org.termi.common.annotation.form.Images;
 import org.termi.common.annotation.form.NotForm;
 import org.termi.common.annotation.form.Select;
-import org.termi.common.annotation.form.TextArea;
 import org.termi.common.constant.PreGroup;
 import org.termi.common.enumeration.FormType;
 import org.termi.common.util.ObjectUtil;
@@ -21,15 +17,21 @@ import org.termi.common.util.TypeUtil;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static org.termi.common.constant.FormTypeAnnotations.FORM_ANNOTATIONS;
+import static org.termi.common.constant.FormTypeAnnotations.ANNOTATION_TO_FORM_TYPE;
+
+@Slf4j
 public record HtmlForm(
         TreeMap<String, List<HtmlFormField>> groups
 ) {
@@ -75,13 +77,10 @@ public record HtmlForm(
 
             FormType formType = getFormType(f);
             Object extra = null;
-            if (formType.equals(FormType.SELECT)) {
-                Select select = f.getAnnotation(Select.class);
-                extra = Map.of(
-                        "url", select.url(),
-                        "multiple", select.multiple(),
-                        "searchable", select.searchable()
-                );
+            switch (formType) {
+                case SELECT -> extra = ObjectUtil.annotationToMap(f, Select.class);
+                case IMAGE -> extra = ObjectUtil.annotationToMap(f, Image.class);
+                case FILE -> extra = ObjectUtil.annotationToMap(f, File.class);
             }
 
             try {
@@ -112,30 +111,19 @@ public record HtmlForm(
         // default is input label
         FormType formType = FormType.TEXT;
 
-        // read from type
-        if (TypeUtil.isBool(f.getType())) {
+        // read annotation classes
+        Set<Class<? extends Annotation>> allAnnotationClazz =
+                Arrays.stream(f.getDeclaredAnnotations())
+                .map(Annotation::annotationType)
+                .collect(Collectors.toSet());
+
+        allAnnotationClazz.retainAll(FORM_ANNOTATIONS);
+        if (allAnnotationClazz.iterator().hasNext()) {
+            formType = ANNOTATION_TO_FORM_TYPE.get(allAnnotationClazz.iterator().next());
+        }else if (TypeUtil.isBool(f.getType())) {
             formType = FormType.SWITCH;
         } else if (TypeUtil.isNumber(f.getType())) {
             formType = FormType.NUMBER;
-        }
-
-        // read from annotation
-        if (f.isAnnotationPresent(Image.class)) {
-            formType = FormType.IMAGE;
-        } else if (f.isAnnotationPresent(Images.class)) {
-            formType = FormType.IMAGES;
-        } else if (f.isAnnotationPresent(Editor.class)) {
-            formType = FormType.EDITOR;
-        } else if (f.isAnnotationPresent(Select.class)) {
-            formType = FormType.SELECT;
-        } else if (f.isAnnotationPresent(Hidden.class)) {
-            formType = FormType.HIDDEN;
-        } else if (f.isAnnotationPresent(TextArea.class)) {
-            formType = FormType.TEXTAREA;
-        } else if (f.isAnnotationPresent(Color.class)) {
-            formType = FormType.COLOR;
-        }else if (f.isAnnotationPresent(HtmlEditor.class)) {
-            formType = FormType.HTML_EDITOR;
         }
 
         return formType;
