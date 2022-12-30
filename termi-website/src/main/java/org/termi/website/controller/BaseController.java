@@ -2,14 +2,11 @@ package org.termi.website.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.termi.common.configuration.UploadConfig;
 import org.termi.common.entity.WidgetInstance;
-import org.termi.common.repository.LayoutRepository;
 import org.termi.common.service.LayoutService;
+import org.termi.common.service.SettingService;
 import org.termi.common.service.WidgetInstanceService;
 import org.termi.common.widget.WidgetPosition;
 import org.termi.common.widget.WidgetRender;
@@ -23,16 +20,10 @@ import java.util.Map;
 @Slf4j
 public class BaseController {
     @Autowired
-    private ApplicationContext context;
+    private SettingService settingService;
 
     @Autowired
     private HttpServletRequest request;
-
-    @Autowired
-    private LayoutRepository layoutRepository;
-
-    @Autowired
-    private UploadConfig uploadConfig;
 
     @Autowired
     private LayoutService layoutService;
@@ -40,15 +31,11 @@ public class BaseController {
     @Autowired
     private WidgetInstanceService widgetInstanceService;
 
-    @ModelAttribute
-    public void setGlobalVariables(Model model) {
-        model.addAttribute("UPLOAD_BASE_URL", uploadConfig.getBaseUrl());
-    }
-
     public void renderLayout(String endpointName, Model model) {
         List<WidgetInstance> instances = widgetInstanceService
                 .getInstances(List.of(endpointName, "~global~"));
 
+        model.addAttribute("UPLOAD_BASE_URL", settingService.getUploadBaseUrl());
         Map<WidgetPosition, StringBuilder> rendered = layoutService.group(
                 instances,
                 StringBuilder::new,
@@ -59,8 +46,8 @@ public class BaseController {
         );
 
         // output to html
-        for (WidgetPosition p : WidgetPosition.values()) {
-            model.addAttribute(p.name(), rendered.get(p).toString());
+        for (WidgetPosition position : WidgetPosition.values()) {
+            model.addAttribute(position.name(), rendered.get(position).toString());
         }
     }
 
