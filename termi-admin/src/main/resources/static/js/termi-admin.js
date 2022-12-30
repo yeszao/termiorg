@@ -259,17 +259,6 @@ const setupRemoveButton = function (callback) {
     }
 }
 
-const removeInstance = function (url) {
-    deleteData(url)
-        .then((response) => {
-            !response.ok && showError(response.json().message)
-        })
-        .then((json) => {
-            showSuccess("Deleted");
-        })
-        .catch(error => showError(error));
-}
-
 const showSuccess = function (message) {
     Swal.fire({
         position: 'top-end',
@@ -280,8 +269,32 @@ const showSuccess = function (message) {
     });
 }
 
-const showError = function (message) {
-    Swal.fire({icon: 'error', text: message});
+const isString = function (input) {
+    return typeof input === 'string' || input instanceof String;
+}
+
+const isArray = function (input) {
+    return input.constructor === Array;
+}
+
+/**
+ * Use sweet alert show error
+ *
+ * @param errors can be `String` or string `Array`
+ */
+const showErrors = function (errors) {
+    if (isString(errors)) {
+        Swal.fire({icon: 'error', html: errors});
+        return;
+    }
+
+    if (isArray(errors)) {
+        let errorHtmls = '';
+        for (let s of errors) {
+            errorHtmls += '<div>' + s + '</div>';
+        }
+        Swal.fire({icon: 'error', html: errorHtmls});
+    }
 }
 
 const saveForm = function (formEl, promptOnSuccess) {
@@ -294,28 +307,40 @@ const saveForm = function (formEl, promptOnSuccess) {
     const formData = convertFormDataToJson(new FormData(formEl));
 
     postData(url, formData)
-        .then((response) => {
-            !response.ok && showError(response.json().message)
-            return response.json();
-        })
-        .then((json) => {
-            promptOnSuccess && showSuccess("Saved");
-            promptOnSuccess || console.log("Saved");
-            formEl["id"].value = json.data.id;
-        })
-        .catch(error => showError(error));
+        .then(json => formEl["id"].value = json.id);
 }
 
-const postData = async function (url, data) {
-    return await fetch(url, {
+const postData = function (url, data) {
+    return fetch(url, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: data
+    }).then((response) => {
+        if (!response.ok) {
+            response.json().then((json) => showErrors(json));
+            throw new Error("Response status from API is " + response.status);
+        } else {
+            return response.json();
+        }
+    }).then((json) => {
+        showSuccess("Saved");
+        return json;
     });
 };
 
 const deleteData = async function (url) {
-    return await fetch(url, {method: 'DELETE'});
+    return fetch(url, {method: 'DELETE'})
+        .then((response) => {
+            if (!response.ok) {
+                response.json().then((json) => showErrors(json));
+                throw new Error("Response status from API is " + response.status);
+            } else {
+                return response.json();
+            }
+        }).then((json) => {
+            showSuccess("Deleted");
+            return json;
+        });
 };
 
 const setupSortInputs = function () {
@@ -330,10 +355,11 @@ const setupSortInputs = function () {
             // save to backend
             const params = new URLSearchParams({id: id, sort: inputEl.value});
             postData(sortUrl + "?" + params.toString())
-
-            // sort frontend elements
-            let dropArea = inputEl.closest(dropSelectors);
-            sortChildrenElements(dropArea, sortInputSelectors);
+                .then(() => {
+                    // sort frontend elements
+                    let dropArea = inputEl.closest(dropSelectors);
+                    sortChildrenElements(dropArea, sortInputSelectors);
+                })
         });
     }
 }
@@ -425,7 +451,7 @@ const setupImageDropzone = function () {
             },
             maxfilesexceeded: function (file) {
                 this.removeFile(file);
-                showError("File Limit exceeded!");
+                showErrors("File Limit exceeded!");
             },
             init: function () {
                 loadExistedPictures(this);
@@ -454,6 +480,5 @@ const loadExistedPictures = function (dropzoneObject) {
 
         dropzoneObject.displayExistingFile(mockFile, imageUrl, callback, crossOrigin, resizeThumbnail);
         dropzoneObject.files.push(mockFile);
-        console.log(dropzoneObject);
     }
 }

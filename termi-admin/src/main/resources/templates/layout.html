@@ -85,7 +85,7 @@
     setupHtmlEditor(document);
     setupWidgetSourceForm();
     setupWidgetTargetForm();
-    setupRemoveButton((url) => removeInstance(url));
+    setupRemoveButton((url) => deleteData(url));
     setupSortInputs();
     setupWidgetInstanceNames();
     setupImageDropzone();
@@ -97,7 +97,7 @@
         setupWidgetTargetForm();
         setupSortInputs();
         setupWidgetInstanceNames();
-        setupRemoveButton((url) => removeInstance(url));
+        setupRemoveButton((url) => deleteData(url));
         setupImageDropzone();
 
         result.action === "copy" && setupHtmlEditor(result.el);
