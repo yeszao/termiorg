@@ -35,7 +35,7 @@ public class BaseController {
         List<WidgetInstance> instances = widgetInstanceService
                 .getInstances(List.of(endpointName, "~global~"));
 
-        model.addAttribute("UPLOAD_BASE_URL", settingService.getUploadBaseUrl());
+        model.addAttribute("setting", settingService.getAll());
         Map<WidgetPosition, StringBuilder> rendered = layoutService.group(
                 instances,
                 StringBuilder::new,

@@ -2,7 +2,10 @@
   <div class="container">
     <!-- Logo -->
     <a class="navbar-brand" href="/">
-      <img class="logo-light" th:src="${UPLOAD_BASE_URL + config.logo}" title="" alt="">
+      <img class="logo-light"
+           th:src="${setting.uploadBaseUrl + config.logo}"
+           th:title="${setting.siteName}"
+           th:alt="${setting.siteName}">
     </a>
     <!-- Logo -->
 

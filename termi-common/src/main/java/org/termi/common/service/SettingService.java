@@ -1,6 +1,8 @@
 package org.termi.common.service;
 
+import java.util.Map;
+
 public interface SettingService {
     String get(String name);
-    String getUploadBaseUrl();
+    Map<String, String> getAll();
 }
