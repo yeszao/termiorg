@@ -64,14 +64,14 @@
                   th:text="${column.value}"
                   th:name="${column.columnName}"></textarea>
 
-        <div th:case="${T(org.termi.common.enumeration.FormType).EDITOR}">
+        <div th:case="${T(org.termi.common.enumeration.FormType).EDITOR}" class="rich-text-editor">
           <input type="hidden"
                  class="form-control"
                  th:disabled="${column.disabled}"
                  th:required="${column.required}"
                  th:value="${column.value}"
                  th:name="${column.columnName}"/>
-          <div id="editor" th:data-input-id="${column.columnName}"></div>
+          <div class="editor" th:data-input-name="${column.columnName}"></div>
         </div>
 
         <div th:case="${T(org.termi.common.enumeration.FormType).SELECT}" class="input-group">

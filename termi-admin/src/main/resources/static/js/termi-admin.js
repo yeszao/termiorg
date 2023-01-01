@@ -21,6 +21,28 @@ const removeButtonSelectors = ".remove-btn-confirm";
 const sortInputSelectors = ".sort-input";
 const instanceNameSelectors = ".widget-instance-name";
 
+const quillToolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+
+    [{'header': 1}, {'header': 2}],               // custom button values
+    [{'list': 'ordered'}, {'list': 'bullet'}],
+    [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+    [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+    [{'direction': 'rtl'}],                         // label direction
+
+    [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+    [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+    [{'font': []}],
+    [{'align': []}],
+
+    ['link', 'image'],
+
+    ['clean']                                         // remove formatting button
+];
+
 const setupDragElements = function () {
     const elements = document.querySelectorAll(dragSelectors);
 
@@ -480,5 +502,30 @@ const loadExistedPictures = function (dropzoneObject) {
 
         dropzoneObject.displayExistingFile(mockFile, imageUrl, callback, crossOrigin, resizeThumbnail);
         dropzoneObject.files.push(mockFile);
+    }
+}
+
+const setupRichTextEditor = function (rootEl) {
+    const elements = rootEl.querySelectorAll(".editor");
+    for (let i = 0; i < elements.length; i++) {
+        let editorEl = elements[i];
+        editorEl.innerHTML = '';
+        editorEl.parentNode.querySelectorAll('.ql-toolbar').forEach(x => x.remove());
+
+        let inputName = editorEl.getAttribute('data-input-name');
+        let inputEl = editorEl.parentNode.querySelector(`input[name=${inputName}]`);
+
+        let quill = new Quill(editorEl, {
+            modules: {toolbar: quillToolbarOptions},
+            theme: 'snow'
+        });
+        let delta = quill.clipboard.convert(inputEl.value)
+        quill.setContents(delta, 'silent')
+
+        let form = inputEl.closest('form');
+        quill.on('text-change', function () {
+            inputEl.value = quill.root.innerHTML;
+            triggerFormChangeEvent(form);
+        });
     }
 }

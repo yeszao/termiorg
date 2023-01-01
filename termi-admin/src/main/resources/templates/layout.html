@@ -75,14 +75,18 @@
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/addon/edit/matchbrackets.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/addon/display/fullscreen.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/addon/display/autorefresh.js "></script>
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
 <!--/*/<th:block th:replace="fragments/scripts :: scripts">/*/-->
 <!--/*/</th:block>/*/-->
+
+<script th:src="@{/js/termi-admin.js}"></script>
 
 <script type="application/javascript">
     Dropzone.autoDiscover = false;
     setupDragElements();
     setupHtmlEditor(document);
+    setupRichTextEditor(document);
     setupWidgetSourceForm();
     setupWidgetTargetForm();
     setupRemoveButton((url) => deleteData(url));
@@ -100,8 +104,11 @@
         setupRemoveButton((url) => deleteData(url));
         setupImageDropzone();
 
-        result.action === "copy" && setupHtmlEditor(result.el);
-        result.action === "copy" && removeDisabled(result.el);
+        if (result.action === "copy") {
+            setupHtmlEditor(result.el);
+            setupRichTextEditor(result.el);
+            removeDisabled(result.el);
+        }
 
         let droppedForm = result.el.querySelector(widgetTargetFormSelectors);
         result.action !== null && saveForm(droppedForm, false);
