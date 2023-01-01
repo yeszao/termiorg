@@ -260,7 +260,7 @@ const setupWidgetTargetForm = function () {
         let form = forms[i];
         form.addEventListener('submit', function (ev) {
             ev.preventDefault();
-            saveForm(this, true);
+            saveForm(this);
         });
     }
 }
@@ -319,7 +319,7 @@ const showErrors = function (errors) {
     }
 }
 
-const saveForm = function (formEl, promptOnSuccess) {
+const saveForm = function (formEl) {
     if (formEl == null) {
         console.error("Form element didn't specify!")
         return;
@@ -476,17 +476,17 @@ const setupImageDropzone = function () {
                 showErrors("File Limit exceeded!");
             },
             init: function () {
-                loadExistedPictures(this);
+                loadExistedPictures(this, maxFiles);
             }
         });
     }
 }
 
-const loadExistedPictures = function (dropzoneObject) {
+const loadExistedPictures = function (dropzoneObject, maxFiles) {
     const imageDropzone = dropzoneObject.element.closest(".image-dropzone");
     const hiddenInputs = imageDropzone.querySelectorAll('input[type=hidden]');
 
-    for (let j = 0; j < hiddenInputs.length; j++) {
+    for (let j = 0; j < hiddenInputs.length && j < maxFiles; j++) {
         let inputEl = hiddenInputs[j];
         const uri = inputEl.value;
         let imageUrl = uploadBaseUrl + uri;

@@ -5,9 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.termi.common.configuration.UploadConfig;
 import org.termi.common.constant.AdminEndpoints;
 import org.termi.common.dto.HtmlForm;
+import org.termi.common.service.SettingService;
 import org.termi.common.util.MapUtil;
 
 import java.util.Map;
@@ -15,12 +15,12 @@ import java.util.Map;
 @ControllerAdvice
 public class BaseController {
     @Autowired
-    private UploadConfig uploadConfig;
+    private SettingService settingService;
 
     @ModelAttribute
     public void setGlobalVariables(Model model) {
         model.addAllAttributes(AdminEndpoints.ALL);
-        model.addAttribute("UPLOAD_BASE_URL", uploadConfig.getBaseUrl());
+        model.addAttribute("setting", settingService.getAll());
     }
 
     protected <T> String setFormModel(String title, T entity, Model model) {

@@ -18,6 +18,4 @@ logging:
 
 upload:
   dir: ./uploads
-  base-url: http://localhost:${server.port}/uploads/
-
 

@@ -49,7 +49,7 @@ public class Product extends SeoEntity {
     private String code;
 
     @Input(label = "Pictures", order = 17)
-    @Image
+    @Image(maxFiles = 7)
     @Lob
     private String pictures;
 

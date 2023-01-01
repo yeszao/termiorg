@@ -29,9 +29,6 @@ public class StorageServiceImpl implements StorageService {
     @Value("${upload.dir}")
     private String uploadDir;
 
-    @Value("${upload.base-url}")
-    private String baseUrl;
-
     @Override
     public Attachment upload(MultipartFile file) throws IOException {
         Assert.notNull(file, "Upload file cannot be empty");

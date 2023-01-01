@@ -38,9 +38,9 @@
 
 </main>
 
-<script th:inline="javascript" th:if="${UPLOAD_BASE_URL} ne null">
+<script th:inline="javascript">
     /*<![CDATA[*/
-    var uploadBaseUrl = /*[[${UPLOAD_BASE_URL}]]*/ '';
+    var uploadBaseUrl = /*[[${setting.uploadBaseUrl}]]*/ '';
     /*]]>*/
 </script>
 
@@ -56,6 +56,7 @@
 <script th:src="@{/js/termi-admin.js}"></script>
 
 <script type="application/javascript">
+    Dropzone.autoDiscover = false;
     let selectObjects = {}
 
     /* Select */

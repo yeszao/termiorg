@@ -15,7 +15,3 @@ logging:
     com.lrm: debug
   file:
     name: logs/termi.log
-
-upload:
-  dir: ./uploads
-  base-url: http://localhost:8088/uploads/
