@@ -9,3 +9,6 @@ spring:
   messages:
     basename: i18n/messages
 
+termi:
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  upload-base-url: ${UPLOAD_BASE_URL:http://localhost:8080/uploads}

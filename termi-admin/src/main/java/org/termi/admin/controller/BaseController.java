@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.termi.common.configuration.TermiConfig;
 import org.termi.common.constant.AdminEndpoints;
 import org.termi.common.dto.HtmlForm;
 import org.termi.common.service.SettingService;
@@ -17,10 +18,14 @@ public class BaseController {
     @Autowired
     private SettingService settingService;
 
+    @Autowired
+    private TermiConfig termiConfig;
+
     @ModelAttribute
     public void setGlobalVariables(Model model) {
         model.addAllAttributes(AdminEndpoints.ALL);
         model.addAttribute("setting", settingService.getAll());
+        model.addAttribute("termiConfig", termiConfig);
     }
 
     protected <T> String setFormModel(String title, T entity, Model model) {

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.termi.common.configuration.TermiConfig;
 import org.termi.common.entity.WidgetInstance;
 import org.termi.common.service.LayoutService;
 import org.termi.common.service.SettingService;
@@ -23,6 +24,9 @@ public class BaseController {
     private SettingService settingService;
 
     @Autowired
+    private TermiConfig termiConfig;
+
+    @Autowired
     private HttpServletRequest request;
 
     @Autowired
@@ -36,6 +40,7 @@ public class BaseController {
                 .getInstances(List.of(endpointName, "~global~"));
 
         model.addAttribute("setting", settingService.getAll());
+        model.addAttribute("termiConfig", termiConfig);
         Map<WidgetPosition, StringBuilder> rendered = layoutService.group(
                 instances,
                 StringBuilder::new,

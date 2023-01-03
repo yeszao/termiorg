@@ -19,7 +19,3 @@ logging:
     com.lrm: debug
   file:
     name: logs/termi.log
-
-upload:
-  dir: ./uploads
-

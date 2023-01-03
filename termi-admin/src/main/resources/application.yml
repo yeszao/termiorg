@@ -13,3 +13,6 @@ spring:
       pageable:
         one-indexed-parameters: true
 
+termi:
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  upload-base-url: ${UPLOAD_BASE_URL:http://localhost:8081/uploads}

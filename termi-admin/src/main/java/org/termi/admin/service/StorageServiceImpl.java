@@ -1,14 +1,14 @@
 package org.termi.admin.service;
 
 import com.google.common.io.Files;
-import org.termi.common.repository.AttachmentRepository;
-import org.termi.common.entity.Attachment;
-import org.termi.common.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
+import org.termi.common.configuration.TermiConfig;
+import org.termi.common.entity.Attachment;
+import org.termi.common.repository.AttachmentRepository;
+import org.termi.common.util.StringUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,8 +26,8 @@ public class StorageServiceImpl implements StorageService {
     @Autowired
     private AttachmentRepository repository;
 
-    @Value("${upload.dir}")
-    private String uploadDir;
+    @Autowired
+    private TermiConfig termiConfig;
 
     @Override
     public Attachment upload(MultipartFile file) throws IOException {
@@ -41,7 +41,7 @@ public class StorageServiceImpl implements StorageService {
 
         String newFilename = StringUtil.getUuid() + "." + extension;
         Path relativePath = Paths.get(newFilename.substring(0, 2), newFilename);
-        Path fullPath = Paths.get(uploadDir, relativePath.toString());
+        Path fullPath = Paths.get(termiConfig.getUploadDir(), relativePath.toString());
         Files.createParentDirs(fullPath.toFile());
 
         // save to local
