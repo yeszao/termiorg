@@ -52,7 +52,7 @@
           </div>
           <div class="product-media">
             <a th:href="'/product/' + ${row.slug}">
-              <img class="img-fluid" th:src="${UPLOAD_BASE_URL} + ${row.firstPicture}" title="" alt="">
+              <img class="img-fluid" th:src="${termiConfig.uploadBaseUrl + row.firstPicture}" title="" alt="">
             </a>
             <div class="product-cart-btn">
               <a href="shopping-cart.html" class="btn btn-primary btn-sm w-100">
