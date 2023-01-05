@@ -64,12 +64,12 @@ public class TreeBaseDto {
         tree.forEach(t -> sortTree(t.getChildren()));
     }
 
-    public static <T extends TreeBaseDto> List<SelectOption> toSelectOptions(List<T> dtoList, Set<Long> disables) {
+    public static <T extends TreeBaseDto> List<SelectOption<Long>> toSelectOptions(List<T> dtoList, Set<Long> disables) {
         if (dtoList.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<SelectOption> options = new ArrayList<>();
+        List<SelectOption<Long>> options = new ArrayList<>();
         for (TreeBaseDto t : dtoList) {
             options.add(SelectOption.of(t.getId(), "&nbsp;".repeat(t.getLevel() * 2) + t.getName(), disables));
             if (t.isHasChild()) {

@@ -64,7 +64,7 @@
     var uploadBaseUrl = /*[[${termiConfig.uploadBaseUrl}]]*/ '';
     /*]]>*/
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/dropzone.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/lib/codemirror.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.10/mode/javascript/javascript.min.js"></script>
@@ -93,6 +93,7 @@
     setupSortInputs();
     setupWidgetInstanceNames();
     setupImageDropzone();
+    setupSelect(document);
 
     setupDropArea((ev) => {
         let result = drop(ev);
@@ -107,6 +108,7 @@
         if (result.action === "copy") {
             setupHtmlEditor(result.el);
             setupRichTextEditor(result.el);
+            setupSelect(result.el);
             removeDisabled(result.el);
         }
 

@@ -47,28 +47,28 @@ public class ApiController {
     private StorageService storageService;
 
     @GetMapping(PAGE_STATUS_API)
-    public List<SelectOption> pageStatus() {
+    public List<SelectOption<String>> pageStatus() {
         return SelectOption.listOf(List.of(PageStatus.values()), PageStatus::name, PageStatus::getText);
     }
 
     @GetMapping(PRODUCT_STATUS_API)
-    public List<SelectOption> productStatus() {
+    public List<SelectOption<String>> productStatus() {
         return SelectOption.listOf(List.of(ProductStatus.values()), ProductStatus::name, ProductStatus::name);
     }
 
     @GetMapping(ICON_ALL_API)
-    public List<SelectOption> icons() {
+    public List<SelectOption<String>> icons() {
         return SelectOption.listOf(List.of(Icon.values()), Icon::name, x -> x.getHtml() + StringUtils.SPACE + x.getCode());
     }
 
     @GetMapping(PRODUCT_SPECIFICATION_ALL_API)
-    public List<SelectOption> specifications() {
+    public List<SelectOption<Long>> specifications() {
         List<ProductSpecification> specifications = productSpecificationService.findAll();
         return SelectOption.listOf(specifications, ProductSpecification::getId, ProductSpecification::getName);
     }
 
     @GetMapping(CATEGORY_ALL_API)
-    public List<SelectOption> categories(@RequestParam(defaultValue = "0") Long id) {
+    public List<SelectOption<Long>> categories(@RequestParam(defaultValue = "0") Long id) {
         List<Category> categories = adminCategoryService.findAll();
         List<? extends TreeBaseDto> dtoList = CategoryDto.treeing(CategoryDto.fromEntities(categories));
 
@@ -77,7 +77,7 @@ public class ApiController {
             disabledIds = CategoryDto.getChildIdsOf(Collections.singleton(id), dtoList);
         }
 
-        List<SelectOption> options = Lists.newArrayList(SelectOption.of(0L, "---"));
+        List<SelectOption<Long>> options = Lists.newArrayList(SelectOption.of(0L, "---"));
         options.addAll(CategoryDto.toSelectOptions(dtoList, disabledIds));
 
         return options;

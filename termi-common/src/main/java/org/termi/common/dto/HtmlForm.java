@@ -51,10 +51,6 @@ public record HtmlForm(
                 continue;
             }
 
-            if (!TypeUtil.isFormable(f.getType())) {
-                continue;
-            }
-
             f.setAccessible(true);
 
             String label = "";

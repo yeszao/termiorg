@@ -57,62 +57,6 @@
 
 <script type="application/javascript">
     Dropzone.autoDiscover = false;
-    let selectObjects = {}
-
-    /* Select */
-    const refreshSelect = function (btn) {
-        const selectId = btn.getAttribute('data-select-id');
-        const selectEl = document.getElementById(selectId);
-        const dataUrl = selectEl.getAttribute("data-url");
-        const initValue = selectEl.getAttribute("data-value");
-        loadSelectOptions(selectId, dataUrl, initValue);
-    }
-
-    const initSelect = function () {
-        let selectElements = document.getElementsByClassName("form-select");
-        Array.from(selectElements).forEach(function (selectEl) {
-            const dataUrl = selectEl.getAttribute("data-url");
-            const searchable = selectEl.getAttribute("data-searchable") === 'true';
-            const initValue = selectEl.getAttribute("data-value");
-
-            const selectObject = new Choices(selectEl, {
-                searchEnabled: selectEl.multiple || searchable,
-                searchChoices: selectEl.multiple || searchable,
-                shouldSort: false,
-                allowHTML: true,
-                removeItemButton: !selectEl.required,
-                classNames: {
-                    containerOuter: 'choices mb-0 w-75',
-                    containerInner: 'choices__inner rounded-start'
-                }
-            });
-
-            const selectId = selectEl.id;
-            selectObjects[selectId] = selectObject;
-            loadSelectOptions(selectId, dataUrl, initValue);
-        });
-    }
-
-    const loadSelectOptions = async (selectId, dataUrl, initValue) => {
-        const selectObject = selectObjects[selectId];
-        const data = await fetch(dataUrl)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (options) {
-                return options.map(function (option) {
-                    return {
-                        label: option.label,
-                        value: option.value,
-                        selected: (option.value === initValue)
-                    };
-                });
-            });
-
-        selectObject.clearStore();
-        selectObject.setChoices(data, "value", "label", true);
-    }
-
     const initSlug = function () {
         var slugElements = document.getElementsByName("slug");
         var nameElements = document.getElementsByName("name");
@@ -138,7 +82,7 @@
     }
 
     window.onload = function () {
-        initSelect();
+        setupSelect(document);
         setupRichTextEditor(document);
         setupImageDropzone();
         initSlug();

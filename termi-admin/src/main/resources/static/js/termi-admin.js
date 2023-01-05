@@ -202,6 +202,11 @@ const removeDisabled = function (el) {
         buttons[i].disabled = false;
     }
 
+    const selects = el.querySelectorAll('select');
+    for (let i = 0; i < selects.length; i++) {
+        selects[i].disabled = false;
+    }
+
     el.querySelector(sortInputSelectors).disabled = false;
     el.querySelector(instanceNameSelectors).disabled = false;
 }
@@ -347,6 +352,21 @@ const postData = function (url, data) {
     }).then((json) => {
         showSuccess("Saved");
         return json;
+    });
+};
+
+const getData = async function (url, data) {
+    return await fetch(url, {
+        method: 'GET',
+        headers: {"Content-Type": "application/json"},
+        body: data
+    }).then((response) => {
+        if (!response.ok) {
+            response.json().then((json) => showErrors(json));
+            throw new Error("Response status from API is " + response.status);
+        } else {
+            return response.json();
+        }
     });
 };
 
@@ -527,5 +547,41 @@ const setupRichTextEditor = function (rootEl) {
             inputEl.value = quill.root.innerHTML;
             triggerFormChangeEvent(form);
         });
+    }
+}
+
+const setupSelect = async function (rootEl) {
+    const elements = rootEl.querySelectorAll(".form-select");
+    for (let i = 0; i < elements.length; i++) {
+        let selectEl = elements[i];
+        const dataUrl = selectEl.getAttribute("data-url");
+        const searchable = selectEl.getAttribute("data-searchable") === 'true';
+        const initValues = JSON.parse(selectEl.getAttribute("data-values"));
+
+        const selectObject = new Choices(selectEl, {
+            searchEnabled: selectEl.multiple || searchable,
+            searchChoices: selectEl.multiple || searchable,
+            shouldSort: false,
+            allowHTML: true,
+            removeItemButton: !selectEl.required,
+            classNames: {
+                containerOuter: 'choices mb-0 w-75',
+                containerInner: 'choices__inner rounded-start'
+            }
+        });
+
+        const data = await getData(dataUrl, null)
+            .then((json) => {
+                return json.map(function (option) {
+                    return {
+                        label: option.label,
+                        value: option.value,
+                        selected: initValues.includes(option.value)
+                    };
+                });
+            });
+
+        selectObject.clearStore();
+        selectObject.setChoices(data, "value", "label", true);
     }
 }
