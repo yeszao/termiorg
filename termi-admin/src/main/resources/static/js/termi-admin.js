@@ -573,10 +573,14 @@ const setupSelect = async function (rootEl) {
         const data = await getData(dataUrl, null)
             .then((json) => {
                 return json.map(function (option) {
+                    let selected = Array.isArray(initValues)
+                        ? initValues.includes(option.value)
+                        : (initValues === option.value);
+
                     return {
                         label: option.label,
                         value: option.value,
-                        selected: initValues.includes(option.value)
+                        selected: selected
                     };
                 });
             });
