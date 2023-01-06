@@ -7,11 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.termi.admin.dto.LayoutDto;
 import org.termi.admin.query.SearchQuery;
 import org.termi.admin.service.LayoutService;
@@ -38,8 +41,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.termi.common.constant.AdminEndpoints.LAYOUT_BASE_URL;
-import static org.termi.common.constant.AdminEndpoints.LAYOUT_EDIT_URL;
+import static org.termi.common.constant.AdminEndpoints.*;
 
 @Controller("AdminLayoutController")
 @Slf4j
@@ -144,8 +146,26 @@ public class LayoutController extends BaseController {
 
         model.addAttribute("widgetHtmlForms", widgetHtmlForms);
 
-        model.addAttribute("layoutId", id);
+        model.addAttribute("layout", layout);
         model.addAttribute("title", "Edit Layout " + layout.getEndpoint());
         return "layout";
+    }
+
+    @PostMapping(LAYOUT_TRIGGER_API)
+    @ResponseBody
+    public ResponseEntity<Map<String, Long>> trigger(@RequestParam Long id,
+                                                     @RequestParam WidgetPosition position,
+                                                     @RequestParam boolean enabled) {
+        Layout layout = service.findById(id).orElseThrow(NotFoundException::new);
+        switch (position) {
+            case TOP -> layout.setTopEnabled(enabled);
+            case LEFT -> layout.setLeftEnabled(enabled);
+            case CENTER -> layout.setCenterEnabled(enabled);
+            case RIGHT -> layout.setRightEnabled(enabled);
+            case BOTTOM -> layout.setBottomEnabled(enabled);
+        }
+
+        service.save(layout);
+        return ResponseEntity.ok(Map.of("id", id));
     }
 }

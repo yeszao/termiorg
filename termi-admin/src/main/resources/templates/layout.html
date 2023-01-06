@@ -17,32 +17,77 @@
       <div class="card card-body border-0 shadow mb-4">
         <!-- TOP -->
         <div class="row">
-          <div class="drop-area drop-top col-12 py-4" id="top">
+          <div class="drop-area drop-top col-12 pt-2 pb-4" id="top">
+            <div class="form-check form-switch d-flex justify-content-end mb-4">
+              <input class="form-check-input layout-switch"
+                     role="button"
+                     type="checkbox"
+                     th:checked="${layout.topEnabled} == true"
+                     th:value="true"
+                     data-position="TOP"
+                     name="topEnabled" />
+            </div>
             <div th:replace="fragments/widget:: widget(${topHtmlForms}, 'TOP', true)"></div>
           </div>
         </div>
 
         <div class="row my-3">
           <!-- LEFT -->
-          <div class="drop-area drop-left col-3 py-4" id="left">
+          <div class="drop-area drop-left col-3 pt-2 pb-4" id="left">
+            <div class="form-check form-switch d-flex justify-content-end mb-4">
+              <input class="form-check-input layout-switch"
+                     role="button"
+                     type="checkbox"
+                     th:checked="${layout.leftEnabled} == true"
+                     th:value="true"
+                     data-position="LEFT"
+                     name="leftEnabled" />
+            </div>
             <div th:replace="fragments/widget:: widget(${leftHtmlForms}, 'LEFT', true)"></div>
           </div>
 
 
           <!-- CENTER -->
-          <div class="drop-area drop-center col-6 py-4" id="center">
+          <div class="drop-area drop-center col-6 pt-2 pb-4" id="center">
+            <div class="form-check form-switch d-flex justify-content-end mb-4">
+              <input class="form-check-input layout-switch"
+                     role="button"
+                     type="checkbox"
+                     th:checked="${layout.centerEnabled} == true"
+                     th:value="true"
+                     data-position="CENTER"
+                     name="centerEnabled" />
+            </div>
             <div th:replace="fragments/widget:: widget(${centerHtmlForms}, 'CENTER', true)"></div>
           </div>
 
           <!-- RIGHT -->
-          <div class="drop-area drop-right col-3 py-4" id="right">
+          <div class="drop-area drop-right col-3 pt-2 pb-4" id="right">
+            <div class="form-check form-switch d-flex justify-content-end mb-4">
+              <input class="form-check-input layout-switch"
+                     role="button"
+                     type="checkbox"
+                     th:checked="${layout.rightEnabled} == true"
+                     th:value="true"
+                     data-position="RIGHT"
+                     name="rightEnabled" />
+            </div>
             <div th:replace="fragments/widget:: widget(${rightHtmlForms}, 'RIGHT', true)"></div>
           </div>
         </div>
 
         <!-- BOTTOM -->
         <div class="row">
-          <div class="drop-area drop-bottom col-12 py-4" id="bottom">
+          <div class="drop-area drop-bottom col-12 pt-2 pb-4" id="bottom">
+            <div class="form-check form-switch d-flex justify-content-end mb-4">
+              <input class="form-check-input layout-switch"
+                     role="button"
+                     type="checkbox"
+                     th:checked="${layout.bottomEnabled} == true"
+                     th:value="true"
+                     data-position="BOTTOM"
+                     name="bottomEnabled" />
+            </div>
             <div th:replace="fragments/widget:: widget(${bottomHtmlForms}, 'BOTTOM', true)"></div>
           </div>
         </div>
@@ -61,7 +106,9 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var uploadBaseUrl = /*[[${termiConfig.uploadBaseUrl}]]*/ '';
+    let layoutId = /*[[${layout.id}]]*/ '';
+    let uploadBaseUrl = /*[[${termiConfig.uploadBaseUrl}]]*/ '';
+    let layoutTriggerApi = /*[[${TRIGGER_API}]]*/ '';
     /*]]>*/
 </script>
 <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
@@ -94,6 +141,7 @@
     setupWidgetInstanceNames();
     setupImageDropzone();
     setupSelect(document);
+    triggerLayout(layoutTriggerApi, layoutId);
 
     setupDropArea((ev) => {
         let result = drop(ev);

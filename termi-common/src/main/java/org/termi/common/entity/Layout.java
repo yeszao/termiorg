@@ -16,6 +16,12 @@ public class Layout extends BaseEntity {
     @Column(unique = true)
     private String endpoint;
 
+    private boolean topEnabled = true;
+    private boolean leftEnabled = true;
+    private boolean centerEnabled = true;
+    private boolean rightEnabled = true;
+    private boolean bottomEnabled = true;
+
     @OneToMany(mappedBy = "layout", fetch = FetchType.LAZY)
     private List<WidgetInstance> widgetInstances;
 

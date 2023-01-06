@@ -589,3 +589,15 @@ const setupSelect = async function (rootEl) {
         selectObject.setChoices(data, "value", "label", true);
     }
 }
+
+const triggerLayout = function (baseUrl, id) {
+    const layoutSwitches = document.querySelectorAll('.layout-switch');
+    layoutSwitches.forEach((w) => {
+        w.addEventListener('change', function (e) {
+            let enabled = e.target.checked;
+            let position = e.target.getAttribute('data-position');
+            let url = baseUrl + "?id=" + id + "&position=" + position + "&enabled=" + enabled;
+            postData(url, null);
+        });
+    });
+}

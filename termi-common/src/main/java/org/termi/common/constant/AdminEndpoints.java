@@ -67,6 +67,7 @@ public class AdminEndpoints {
 
     // Layout
     public static final String LAYOUT_ALL_API = "/admin/api/layouts";
+    public static final String LAYOUT_TRIGGER_API = "/admin/layouts/switch";
     public static final String LAYOUT_BASE_URL = "/admin/layouts";
     public static final String LAYOUT_PARENT_URL = "";
     public static final String LAYOUT_ADD_URL = "/admin/layouts/add";
