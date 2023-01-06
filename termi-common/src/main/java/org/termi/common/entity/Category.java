@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.termi.common.annotation.Form;
 import org.termi.common.annotation.Input;
+import org.termi.common.annotation.form.Image;
 import org.termi.common.annotation.form.Select;
 import org.termi.common.constant.PreGroup;
 
@@ -27,6 +28,9 @@ public class Category extends SeoEntity {
 
     @NotNull
     private String name;
+
+    @Image
+    private String image;
 
     @Input(grid = 4)
     private int sort;

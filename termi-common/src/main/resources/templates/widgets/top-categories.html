@@ -10,7 +10,7 @@
         <div class="hover-scale">
           <div class="hover-scale-in">
             <a th:href="'/category/' + ${category.slug}">
-              <img class="img-fluid" src="assets/img/shop-banner-4.png" title="" alt="">
+              <img class="img-fluid" th:src="${termiConfig.uploadBaseUrl + category.image}" title="" alt="">
             </a>
           </div>
           <div class="text-center mx-4 mt-n5 position-relative z-index-1 bg-white shadow p-4">
