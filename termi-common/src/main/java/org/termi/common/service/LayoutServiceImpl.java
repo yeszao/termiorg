@@ -5,8 +5,10 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.termi.common.entity.Layout;
 import org.termi.common.entity.WidgetInstance;
 import org.termi.common.function.TriConsumer;
+import org.termi.common.repository.LayoutRepository;
 import org.termi.common.widget.WidgetPosition;
 import org.termi.common.widget.WidgetRender;
 
@@ -14,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -22,7 +25,15 @@ import java.util.stream.Collectors;
 public class LayoutServiceImpl implements LayoutService {
 
     @Autowired
+    private LayoutRepository layoutRepository;
+
+    @Autowired
     private ApplicationContext context;
+
+    @Override
+    public Optional<Layout> findByEndpoint(String endpoint) {
+        return layoutRepository.findByEndpoint(endpoint);
+    }
 
     @Override
     public <T> Map<WidgetPosition, T> group(List<WidgetInstance> instances,

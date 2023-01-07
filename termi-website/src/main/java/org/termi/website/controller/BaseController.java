@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.termi.common.configuration.TermiConfig;
+import org.termi.common.entity.Layout;
 import org.termi.common.entity.WidgetInstance;
+import org.termi.common.exception.NotFoundException;
 import org.termi.common.service.LayoutService;
 import org.termi.common.service.SettingService;
 import org.termi.common.service.WidgetInstanceService;
@@ -36,6 +38,9 @@ public class BaseController {
     private WidgetInstanceService widgetInstanceService;
 
     public void renderLayout(String endpointName, Model model) {
+        Layout layout  = layoutService.findByEndpoint(endpointName)
+                .orElseThrow(NotFoundException::new);
+
         List<WidgetInstance> instances = widgetInstanceService
                 .getInstances(List.of(endpointName, "~global~"));
 
@@ -50,6 +55,7 @@ public class BaseController {
                 }
         );
 
+        model.addAttribute("layout", layout);
         // output to html
         for (WidgetPosition position : WidgetPosition.values()) {
             model.addAttribute(position.name(), rendered.get(position).toString());

@@ -11,29 +11,29 @@
   </div>
 </div>
 
-<header th:if="${TOP} ne ''" th:utext="${TOP}"
+<header th:if="${layout.topEnabled}" th:utext="${TOP}"
         class="header-main header-dark header-fluid header-transparent">
 </header>
 
 <div class="py-6">
   <div class="container">
     <div class="row">
-      <aside th:utext="${LEFT}" th:if="${LEFT} ne ''"
+      <aside th:utext="${LEFT}" th:if="${layout.leftEnabled}"
              id="shop_filter"
              class="col-lg-4 col-xl-3 pe-xl-5 pt-9 pt-lg-0 shop-mob-toggle collapse d-lg-block">
       </aside>
 
-      <main th:utext="${CENTER}"
+      <main th:utext="${CENTER}" th:if="${layout.centerEnabled}"
             class="col-lg-8 col-xl-9">
       </main>
 
-      <aside th:utext="${RIGHT}" th:if="${RIGHT} ne ''">
+      <aside th:utext="${RIGHT}" th:if="${layout.rightEnabled}">
       </aside>
     </div>
   </div>
 </div>
 
-<footer th:utext="${BOTTOM}" th:if="${BOTTOM} ne ''"
+<footer th:utext="${BOTTOM}" th:if="${layout.bottomEnabled}"
         class="bg-dark footer">
 </footer>
 
