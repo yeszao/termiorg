@@ -23,7 +23,9 @@ public class SliderWidgetRenderer implements WidgetRender {
     public String render(String json, HttpServletRequest request, Model model) {
         SliderWidgetConfiguration config = JsonUtil.parse(json, SliderWidgetConfiguration.class);
         if (Objects.isNull(config)) {
-            config = new SliderWidgetConfiguration();
+            config = new SliderWidgetConfiguration(true, "", "", "",
+                    true, "", "", "",
+                    true, "", "", "");
         }
 
         Map<String, Object> variables = model.asMap();

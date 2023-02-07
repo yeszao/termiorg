@@ -8,7 +8,4 @@ public record HtmlWidgetConfiguration(
         @HtmlEditor
         String html
 ) {
-        public HtmlWidgetConfiguration() {
-                this("");
-        }
 }

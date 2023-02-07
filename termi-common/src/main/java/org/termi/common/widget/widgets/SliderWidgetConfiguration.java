@@ -31,9 +31,4 @@ public record SliderWidgetConfiguration(
         @HtmlEditor
         String html3
 ) {
-    public SliderWidgetConfiguration() {
-        this(true, "", "", "",
-                true, "", "", "",
-                true, "", "", "");
-    }
 }

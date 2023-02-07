@@ -23,7 +23,7 @@ public class HtmlWidgetRenderer implements WidgetRender {
     public  String render(String configuration, HttpServletRequest request, Model model) {
         HtmlWidgetConfiguration config = JsonUtil.parse(configuration, HtmlWidgetConfiguration.class);
         if (Objects.isNull(config)) {
-            config = new HtmlWidgetConfiguration();
+            config = new HtmlWidgetConfiguration("");
         }
 
         Map<String, Object> variables = model.asMap();

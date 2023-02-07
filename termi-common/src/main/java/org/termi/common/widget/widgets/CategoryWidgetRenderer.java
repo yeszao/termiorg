@@ -33,7 +33,7 @@ public class CategoryWidgetRenderer implements WidgetRender {
     public String render(String json, HttpServletRequest request, Model model) {
         CategoryWidgetConfiguration config = JsonUtil.parse(json, CategoryWidgetConfiguration.class);
         if (Objects.isNull(config)) {
-            config = new CategoryWidgetConfiguration();
+            config = new CategoryWidgetConfiguration(10);
         }
 
         Long categoryId = Long.parseLong(Objects.requireNonNull(model.getAttribute("categoryId")).toString());

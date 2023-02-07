@@ -10,7 +10,4 @@ public record NavbarWidgetConfiguration(
         @Input(grid = 4)
         String logo
 ) {
-         public NavbarWidgetConfiguration() {
-                 this("");
-         }
 }

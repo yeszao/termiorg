@@ -30,7 +30,7 @@ public class TopCategoriesWidgetRenderer implements WidgetRender {
     public String render(String json, HttpServletRequest request, Model model) {
         TopCategoriesWidgetConfiguration config = JsonUtil.parse(json, TopCategoriesWidgetConfiguration.class);
         if (Objects.isNull(config)) {
-            config = new TopCategoriesWidgetConfiguration();
+            config = new TopCategoriesWidgetConfiguration("Shop by Category", new ArrayList<>());
         }
 
         //Set<Long> categoryIds = StringUtil.commaToLongSet(config.categoryIds());

@@ -6,7 +6,4 @@ import org.termi.common.annotation.Form;
 public record CategoryWidgetConfiguration(
         int pageSize
 ) {
-    public CategoryWidgetConfiguration() {
-        this(10);
-    }
 }

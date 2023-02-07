@@ -31,7 +31,7 @@ public class NavbarWidgetRenderer implements WidgetRender {
     public String render(String json, HttpServletRequest request, Model model) {
         NavbarWidgetConfiguration config = JsonUtil.parse(json, NavbarWidgetConfiguration.class);
         if (Objects.isNull(config)) {
-            config = new NavbarWidgetConfiguration();
+            config = new NavbarWidgetConfiguration("");
         }
 
         List<MenuDto> categoryDtoList = MenuDto.fromEntities(menuRepository.findAll());
