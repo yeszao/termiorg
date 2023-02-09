@@ -1,7 +1,9 @@
 package org.termi.admin.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +20,8 @@ import org.termi.common.entity.WidgetInstance;
 import org.termi.common.exception.NotFoundException;
 import org.termi.common.repository.LayoutRepository;
 import org.termi.common.repository.WidgetRepository;
+import org.termi.common.util.JsonUtil;
+import org.termi.common.widget.WidgetRender;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -36,6 +40,9 @@ public class WidgetInstanceController extends BaseController {
     @Autowired
     private LayoutRepository layoutRepository;
 
+    @Autowired
+    private ApplicationContext context;
+
     @ModelAttribute
     public void setPageVariables(Model model) {
         model.addAllAttributes(AdminEndpoints.WIDGET_INSTANCE);
@@ -44,7 +51,7 @@ public class WidgetInstanceController extends BaseController {
 
 
     @PostMapping(WIDGET_INSTANCE_ADD_URL)
-    public ResponseEntity<Map<String, Long>> save(@Valid @RequestBody WidgetInstance entity) {
+    public ResponseEntity<Map<String, Long>> save(@Valid @RequestBody WidgetInstance entity) throws JsonProcessingException {
         entity.setAddBy(0L);
         entity.setEditBy(0L);
 
@@ -52,6 +59,11 @@ public class WidgetInstanceController extends BaseController {
         entity.setWidget(widget);
         Layout layout = layoutRepository.findById(entity.getLayoutId()).orElseThrow(NotFoundException::new);
         entity.setLayout(layout);
+
+        // validate json
+        WidgetRender renderer = context.getBean(widget.getRendererClassName(), WidgetRender.class);
+        Object configObject = JsonUtil.getMapper().readValue(entity.getConfiguration(), renderer.getConfigurationClass());
+        entity.setConfiguration(JsonUtil.getMapper().writeValueAsString(configObject));
 
         if (entity.getId() == 0) {
             service.save(entity);
