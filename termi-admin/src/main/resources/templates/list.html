@@ -50,7 +50,7 @@
                 <img class="img-thumbnail"
                      th:case="${T(org.termi.common.enumeration.FormType).IMAGE}"
                      th:if="${row[column.columnName]}"
-                     th:src="${UPLOAD_BASE_URL} + ${row[column.columnName]}"/>
+                     th:src="${termiConfig.uploadBaseUrl} + ${row[column.columnName]}"/>
 
                 <span th:case="*" th:text="${row[column.columnName]}"></span>
 
