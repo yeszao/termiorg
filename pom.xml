@@ -13,6 +13,7 @@
 
     <modules>
         <module>termi-common</module>
+        <module>termi-auth</module>
         <module>termi-admin</module>
         <module>termi-website</module>
         <module>termi-all</module>
