@@ -79,6 +79,14 @@ public class AdminEndpoints {
     public static final String WIDGET_INSTANCE_SORT_URL = "/admin/widget-instance/sort";
     public static final String WIDGET_INSTANCE_NAME_URL = "/admin/widget-instance/name";
 
+    // SETTING
+    public static final String SETTING_ALL_API = "/admin/api/settings";
+    public static final String SETTING_BASE_URL = "/admin/settings";
+    public static final String SETTING_PARENT_URL = "";
+    public static final String SETTING_ADD_URL = "/admin/settings/add";
+    public static final String SETTING_EDIT_URL = "/admin/settings/edit";
+    public static final String SETTING_DELETE_URL = "/admin/settings/delete";
+
     // Icon
     public static final String ICON_ALL_API = "/admin/api/icons";
 
@@ -94,4 +102,5 @@ public class AdminEndpoints {
     public static final Map<String, String> LAYOUT = ClassUtil.toMap(AdminEndpoints.class, "LAYOUT_");
     public static final Map<String, String> ICON = ClassUtil.toMap(AdminEndpoints.class, "ICON_");
     public static final Map<String, String> WIDGET_INSTANCE = ClassUtil.toMap(AdminEndpoints.class, "WIDGET_INSTANCE_");
+    public static final Map<String, String> SETTING = ClassUtil.toMap(AdminEndpoints.class, "SETTING_");
 }
