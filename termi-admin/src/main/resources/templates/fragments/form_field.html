@@ -54,7 +54,7 @@
                   class="form-control"
                   th:disabled="${column.disabled}"
                   th:required="${column.required}"
-                  th:value="${column.value}"
+                  th:text="${column.value}"
                   th:name="${column.columnName}"></textarea>
 
         <textarea th:case="${T(org.termi.common.enumeration.FormType).HTML_EDITOR}"
