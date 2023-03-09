@@ -87,6 +87,9 @@ public class AdminEndpoints {
     public static final String SETTING_EDIT_URL = "/admin/settings/edit";
     public static final String SETTING_DELETE_URL = "/admin/settings/delete";
 
+    // Carousel
+    public static final String CAROUSEL_EDIT_URL = "/admin/carousel/edit";
+
     // Icon
     public static final String ICON_ALL_API = "/admin/api/icons";
 
@@ -103,4 +106,5 @@ public class AdminEndpoints {
     public static final Map<String, String> ICON = ClassUtil.toMap(AdminEndpoints.class, "ICON_");
     public static final Map<String, String> WIDGET_INSTANCE = ClassUtil.toMap(AdminEndpoints.class, "WIDGET_INSTANCE_");
     public static final Map<String, String> SETTING = ClassUtil.toMap(AdminEndpoints.class, "SETTING_");
+    public static final Map<String, String> CAROUSEL = ClassUtil.toMap(AdminEndpoints.class, "CAROUSEL_");
 }

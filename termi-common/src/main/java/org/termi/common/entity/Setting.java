@@ -8,6 +8,7 @@ import org.termi.common.annotation.form.TextArea;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -24,6 +25,7 @@ public class Setting extends BaseEntity {
 
     @Input(order = 1)
     @TextArea
+    @Lob
     private String value;
 
     @Input(order = 5)

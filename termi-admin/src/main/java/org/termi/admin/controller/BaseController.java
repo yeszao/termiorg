@@ -36,6 +36,11 @@ public class BaseController {
     }
 
     protected String success(String redirectUrl,
+                             String message,
+                             RedirectAttributes attributes) {
+        return success(redirectUrl, Map.of(), message, attributes);
+    }
+    protected String success(String redirectUrl,
                              Map<String, Object> params,
                              String message,
                              RedirectAttributes attributes) {

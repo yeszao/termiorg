@@ -5,12 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.termi.admin.query.SearchQuery;
 import org.termi.common.entity.Setting;
+import org.termi.common.exception.NotFoundException;
 import org.termi.common.repository.SettingRepository;
+import org.termi.common.util.JsonUtil;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +46,27 @@ public class SettingServiceImpl implements SettingService {
         };
 
         return repository.findAll(spec, pageable);
+    }
+
+    @Override
+    public <T> T getJson(String name, Class<T> clazz) {
+        Setting setting = repository.findFirstByName(name).orElseThrow(NotFoundException::new);
+        if (ObjectUtils.isEmpty(setting.getValue())) {
+            try {
+                return clazz.getDeclaredConstructor().newInstance();
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Can not create new instance for json value");
+            }
+        }
+
+        return JsonUtil.parse(setting.getValue(), clazz);
+    }
+
+    @Override
+    public <T> void setJson(String name, T object) {
+        Setting setting = repository.findFirstByName(name).orElseThrow(NotFoundException::new);
+        setting.setValue(JsonUtil.objectToString(object));
+        repository.save(setting);
     }
 }

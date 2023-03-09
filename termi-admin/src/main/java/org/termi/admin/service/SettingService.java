@@ -7,4 +7,6 @@ import org.termi.common.entity.Setting;
 
 public interface SettingService extends BaseService<Setting, Long> {
     Page<Setting> getList(Pageable pageable, SearchQuery query);
+    <T> T getJson(String name, Class<T> clazz);
+    <T> void setJson(String name, T object);
 }
